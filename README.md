@@ -1,3 +1,7 @@
+## Installing Dependencies
+
+```./install.sh```
+
 ## Running the project
 
-```py analysis.py <article_url>```
+```./run.sh```
