@@ -1,3 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+#root {
+  --dark: #1a1e2c;
+  --gray: #8e94a7;
+  --light-gray: #e7e9f0;
+  --status: #00d555;
+  --accent: #0346f2;
+  --light-accent: #f2f5fe;
+  --primary-font: 'Source Sans Pro', Arial, sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+html {
+  font-family: 'Poppins', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  background: #f6f7fb;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style: none;
+}
+
+nav > * {
+  cursor: pointer;
+}
+
 #main-content {
   max-width: 1024px;
   margin: 2rem auto;
@@ -5,4 +54,11 @@
 
 #output {
   margin: 2rem auto;
+}
+
+.header-divider {
+  border-right: 1px solid #e7e9f0;
+  width: 1px;
+  height: 48px;
+  margin: 0 1rem;
 }
