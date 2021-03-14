@@ -17,4 +17,4 @@
 
 If everything works according to plan, you should see the following screen after running the previous scripts:
 
-![Main Page](https://imgur.com/SlHiFpG.png)
+![Main Page](https://imgur.com/vKFoA0I.png)
