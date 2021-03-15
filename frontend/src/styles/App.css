@@ -4,7 +4,7 @@
   --dark: #1a1e2c;
   --gray: #8e94a7;
   --light-gray: #e7e9f0;
-  --status: #00d555;
+  --status: #00d455;
   --accent: #0346f2;
   --light-accent: #f2f5fe;
   --primary-font: 'Source Sans Pro', Arial, sans-serif;
@@ -47,18 +47,103 @@ nav > * {
   cursor: pointer;
 }
 
-#main-content {
-  max-width: 1024px;
-  margin: 2rem auto;
-}
-
-#output {
-  margin: 2rem auto;
-}
-
 .header-divider {
   border-right: 1px solid #e7e9f0;
   width: 1px;
   height: 48px;
   margin: 0 1rem;
+}
+
+#main-content {
+  max-width: 1280px;
+  margin: 2rem auto;
+  display: flex;
+  align-items: flex-start;
+}
+
+#input {
+  width: 400px;
+}
+
+#output {
+  flex-grow: 1;
+}
+
+.main-card {
+  background: #ffffff;
+  border: 0.5px solid #ebebf9;
+  box-sizing: border-box;
+  box-shadow: 8px 8px 16px 4px rgba(137, 143, 150, 0.04);
+  border-radius: 20px;
+  margin: 20px;
+  padding: 32px;
+}
+
+.card-header {
+  padding: 0;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #8e94a7;
+}
+
+#add-entity-button {
+  color: var(--status);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card-title {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--dark);
+  margin: 0;
+}
+
+input.entity-name {
+  border: none;
+  padding: 1.5rem 0.2rem;
+  border-bottom: 1px solid var(--light-gray);
+  color: var(--gray);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+input.entity-name::placeholder {
+  color: var(--light-gray);
+}
+
+#search-button {
+  width: 100%;
+  background-color: var(--accent);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 10px;
+  height: 52px;
+  transition: 0.3s;
+}
+
+#search-button:hover,
+#add-entity-button:hover {
+  filter: drop-shadow(4px 4px 5px rgba(143, 143, 143, 0.25));
+}
+
+#years-range-group label {
+  margin: 0;
+}
+
+#years-range-group {
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--light-gray);
 }

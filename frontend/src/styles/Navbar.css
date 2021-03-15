@@ -1,6 +1,7 @@
 #navbar {
   height: 100px;
   background: #ffffff;
+  padding: 8px 60px;
   border: 0.5px solid #ebebf9;
   box-sizing: border-box;
   box-shadow: 8px 8px 16px 4px rgba(133, 139, 146, 0.06);
