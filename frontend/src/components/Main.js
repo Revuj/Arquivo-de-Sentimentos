@@ -6,14 +6,15 @@ import YearsRange from './YearsRange';
 
 function Main() {
   const [form, setForm] = useState({
-    url:
-      'https://www.cmjornal.pt/politica/detalhe/andre-ventura-avisa-psd-que-chega-nao-sera-o-cds-do-seculo-xxi',
+    entity:
+      'Andre Ventura',
   });
 
   const [score, setScore] = useState('');
   const [magnitude, setMagnitude] = useState('');
   const [year, setYear] = useState(2010);
   const [currentTime, setCurrentTime] = useState(0);
+  const [articles, setArticles] = useState('');
 
   useEffect(() => {
     axios.get('/time').then((res) => {
@@ -28,9 +29,11 @@ function Main() {
 
   const handleSubmit = () => {
     axios.post('/analyse', form).then((res) => {
+      console.log('ola')
       console.log(res);
-      setScore(res.data.score);
-      setMagnitude(res.data.magnitude);
+      setArticles(res.data.urls.join('\n'))
+      // setScore(res.data.score);
+      // setMagnitude(res.data.magnitude);
     });
   };
 
@@ -45,11 +48,11 @@ function Main() {
           <FormGroup>
             <Input
               type="text"
-              name="url"
+              name="entity"
               id="source-url"
               className="entity-name"
               placeholder="Write your entity in here"
-              value={form.url}
+              value={form.entity}
               onChange={handleChange}
             />
           </FormGroup>
@@ -68,6 +71,7 @@ function Main() {
         </div>
         <p>Score: {score}</p>
         <p>Magnitude: {magnitude}</p>
+        <p>Articles: {articles}</p>
       </div>
     </div>
   );

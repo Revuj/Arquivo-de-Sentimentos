@@ -11,7 +11,8 @@ def get_current_time():
 
 @app.route('/analyse', methods=['POST', 'GET'])
 def analyse():
-    url = request.json.get('url')
-    result = analysis.analysis(url)
-    return {'score': result['score'], 'magnitude': result['magnitude']}
+    entity = request.json.get('entity')
+    result = analysis.analysis(entity)
+    # return {'score': result['score'], 'magnitude': result['magnitude']}
+    return { 'urls': result }
 
