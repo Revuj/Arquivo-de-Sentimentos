@@ -6,8 +6,7 @@ import YearsRange from './YearsRange';
 
 function Main() {
   const [form, setForm] = useState({
-    entity:
-      'Andre Ventura',
+    entity: 'Andre Ventura',
   });
 
   const [score, setScore] = useState('');
@@ -29,9 +28,9 @@ function Main() {
 
   const handleSubmit = () => {
     axios.post('/analyse', form).then((res) => {
-      console.log('ola')
+      console.log('ola');
       console.log(res);
-      setArticles(res.data.urls.join('\n'))
+      setArticles(res.data.urls.join('\n'));
       // setScore(res.data.score);
       // setMagnitude(res.data.magnitude);
     });
