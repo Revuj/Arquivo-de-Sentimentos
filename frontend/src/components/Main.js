@@ -3,23 +3,13 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { HiPlusCircle } from 'react-icons/hi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
+import SentimentChart from './SentimentChart';
 
 function Main() {
   const [form, setForm] = useState({
     entity: 'Andre Ventura',
   });
-
-  const [score, setScore] = useState('');
-  const [magnitude, setMagnitude] = useState('');
-  const [year, setYear] = useState(2010);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [articles, setArticles] = useState('');
-
-  useEffect(() => {
-    axios.get('/time').then((res) => {
-      setCurrentTime(res.data.time);
-    });
-  }, []);
+  const [sentimentScores, setSentimentScores] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,11 +18,7 @@ function Main() {
 
   const handleSubmit = () => {
     axios.post('/analyse', form).then((res) => {
-      console.log('ola');
-      console.log(res);
-      setArticles(res.data.urls.join('\n'));
-      // setScore(res.data.score);
-      // setMagnitude(res.data.magnitude);
+      setSentimentScores(res.data);
     });
   };
 
@@ -68,9 +54,7 @@ function Main() {
         <div className="card-header">
           <h4 className="card-title">Sentiment Analysis</h4>
         </div>
-        <p>Score: {score}</p>
-        <p>Magnitude: {magnitude}</p>
-        <p>Articles: {articles}</p>
+        <SentimentChart sentimentScores={sentimentScores} num="oioi" />
       </div>
     </div>
   );

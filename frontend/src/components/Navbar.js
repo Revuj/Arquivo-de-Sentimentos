@@ -39,7 +39,7 @@ const MainNavbar = (props) => {
             <NavItem className="nav-item">About</NavItem>
           </Nav>
           <NavItem className="nav-item">Examples</NavItem>
-          <div class="header-divider"></div>
+          <div className="header-divider"></div>
           <UncontrolledDropdown nav inNavbar id="language-dropdown">
             <DropdownToggle nav caret>
               EN
