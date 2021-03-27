@@ -10,6 +10,7 @@ function Main() {
     entity: 'Andre Ventura',
   });
   const [sentimentScores, setSentimentScores] = useState({});
+  const [years, setYears] = useState([2010, 2021]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +44,7 @@ function Main() {
           </FormGroup>
           <FormGroup id="years-range-group">
             <Label for="years-range">Years to Analyse</Label>
-            <YearsRange />
+            <YearsRange values={years} setValues={setYears} />
           </FormGroup>
           <Button id="search-button" onClick={handleSubmit}>
             Confirm
@@ -54,7 +55,11 @@ function Main() {
         <div className="card-header">
           <h4 className="card-title">Sentiment Analysis</h4>
         </div>
-        <SentimentChart sentimentScores={sentimentScores} num="oioi" />
+        <SentimentChart
+          sentimentScores={sentimentScores}
+          firstYearIndex={years[0] - 2000}
+          lastYearIndex={years[1] - 2000 + 1}
+        />
       </div>
     </div>
   );

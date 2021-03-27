@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-const SentimentChart = ({ sentimentScores, num }) => {
+const SentimentChart = ({ sentimentScores, firstYearIndex, lastYearIndex }) => {
   const graphData = {
     labels: [
       '2000',
@@ -26,13 +26,39 @@ const SentimentChart = ({ sentimentScores, num }) => {
       '2019',
       '2020',
       '2021',
-    ],
+    ].slice(firstYearIndex, lastYearIndex),
     datasets: [
       {
         label: 'Correio da Manhã',
         data: sentimentScores['Correio da Manhã']
-          ? sentimentScores['Correio da Manhã']
-          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          ? sentimentScores['Correio da Manhã'].slice(
+              firstYearIndex,
+              lastYearIndex
+            )
+          : [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ].slice(firstYearIndex, lastYearIndex),
         fill: false,
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgba(255, 99, 132, 0.2)',
@@ -41,8 +67,34 @@ const SentimentChart = ({ sentimentScores, num }) => {
       {
         label: 'Jornal de Notícias',
         data: sentimentScores['Jornal de Notícias']
-          ? sentimentScores['Jornal de Notícias']
-          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          ? sentimentScores['Jornal de Notícias'].slice(
+              firstYearIndex,
+              lastYearIndex
+            )
+          : [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ].slice(firstYearIndex, lastYearIndex),
         fill: false,
         backgroundColor: 'rgb(54, 162, 235)',
         borderColor: 'rgba(54, 162, 235, 0.2)',

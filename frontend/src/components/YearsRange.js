@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-const YearsRange = () => {
-  const [values, setValues] = React.useState([2000, 2010]);
+const YearsRange = ({ values, setValues }) => {
   return (
     <Range
       step={1}
