@@ -1,106 +1,63 @@
+import { values } from 'lodash';
 import React from 'react';
-import { Line } from 'react-chartjs-2';
+import { Line, defaults } from 'react-chartjs-2';
+
+defaults.global.defaultFontColor = '#1a1e2c';
+defaults.global.defaultFontFamily = 'Poppins';
 
 const SentimentChart = ({ sentimentScores, firstYearIndex, lastYearIndex }) => {
+  const colors = [
+    '#0346f2',
+    '#a522d9',
+    '#e200b6',
+    '#ff008f',
+    '#ff1369',
+    '#ff5547',
+    '#ff8126',
+    '#ffa600',
+  ];
+
+  const labels = [
+    '2000',
+    '2001',
+    '2002',
+    '2003',
+    '2004',
+    '2005',
+    '2006',
+    '2007',
+    '2008',
+    '2009',
+    '2010',
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    '2021',
+  ].slice(firstYearIndex, lastYearIndex);
+
+  const datasets = [];
+  let colorIndex = 0;
+  for (const source in sentimentScores) {
+    datasets.push({
+      label: source,
+      data: sentimentScores[source].slice(firstYearIndex, lastYearIndex),
+      fill: false,
+      backgroundColor: colors[colorIndex],
+      borderColor: colors[colorIndex++] + '55',
+      yAxisID: 'y-axis-1',
+    });
+  }
+
   const graphData = {
-    labels: [
-      '2000',
-      '2001',
-      '2002',
-      '2003',
-      '2004',
-      '2005',
-      '2006',
-      '2007',
-      '2008',
-      '2009',
-      '2010',
-      '2011',
-      '2012',
-      '2013',
-      '2014',
-      '2015',
-      '2016',
-      '2017',
-      '2018',
-      '2019',
-      '2020',
-      '2021',
-    ].slice(firstYearIndex, lastYearIndex),
-    datasets: [
-      {
-        label: 'Correio da Manhã',
-        data: sentimentScores['Correio da Manhã']
-          ? sentimentScores['Correio da Manhã'].slice(
-              firstYearIndex,
-              lastYearIndex
-            )
-          : [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-            ].slice(firstYearIndex, lastYearIndex),
-        fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.2)',
-        yAxisID: 'y-axis-1',
-      },
-      {
-        label: 'Jornal de Notícias',
-        data: sentimentScores['Jornal de Notícias']
-          ? sentimentScores['Jornal de Notícias'].slice(
-              firstYearIndex,
-              lastYearIndex
-            )
-          : [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-            ].slice(firstYearIndex, lastYearIndex),
-        fill: false,
-        backgroundColor: 'rgb(54, 162, 235)',
-        borderColor: 'rgba(54, 162, 235, 0.2)',
-        yAxisID: 'y-axis-1',
-      },
-    ],
+    labels,
+    datasets,
   };
 
   const options = {
