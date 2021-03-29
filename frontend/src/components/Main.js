@@ -5,12 +5,17 @@ import axios from 'axios';
 import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
 
+const newsSources = ['Correio da Manhã', 'Jornal de Notícias'];
+
 function Main() {
   const [form, setForm] = useState({
     entity: 'Andre Ventura',
   });
   const [sentimentScores, setSentimentScores] = useState({});
   const [years, setYears] = useState([2010, 2021]);
+  const [sources, setSources] = useState(new Set(newsSources));
+
+  const [checked, setChecked] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +26,15 @@ function Main() {
     axios.post('/analyse', form).then((res) => {
       setSentimentScores(res.data);
     });
+  };
+
+  const toggleSource = (source) => {
+    if (sources.has(source)) {
+      setSources((prev) => new Set([...prev].filter((x) => x !== source)));
+    } else {
+      setSources((prev) => new Set(prev.add(source)));
+    }
+    console.log(source);
   };
 
   return (
@@ -46,6 +60,29 @@ function Main() {
             <Label for="years-range">Years to Analyse</Label>
             <YearsRange values={years} setValues={setYears} />
           </FormGroup>
+          <ul id="selected-sources">
+            {sources &&
+              newsSources.map((source) => {
+                return (
+                  <li
+                    key={source}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleSource(source);
+                    }}
+                  >
+                    <label className="container">
+                      <input
+                        type="checkbox"
+                        checked={sources.has(source)}
+                        className="radio-source"
+                      />
+                      <span>{source}</span>
+                    </label>
+                  </li>
+                );
+              })}
+          </ul>
           <Button id="search-button" onClick={handleSubmit}>
             Confirm
           </Button>
@@ -59,6 +96,7 @@ function Main() {
           sentimentScores={sentimentScores}
           firstYearIndex={years[0] - 2000}
           lastYearIndex={years[1] - 2000 + 1}
+          sources={sources}
         />
       </div>
     </div>

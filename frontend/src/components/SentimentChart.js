@@ -5,7 +5,12 @@ import { Line, defaults } from 'react-chartjs-2';
 defaults.global.defaultFontColor = '#1a1e2c';
 defaults.global.defaultFontFamily = 'Poppins';
 
-const SentimentChart = ({ sentimentScores, firstYearIndex, lastYearIndex }) => {
+const SentimentChart = ({
+  sentimentScores,
+  firstYearIndex,
+  lastYearIndex,
+  sources,
+}) => {
   const colors = [
     '#0346f2',
     '#a522d9',
@@ -45,14 +50,16 @@ const SentimentChart = ({ sentimentScores, firstYearIndex, lastYearIndex }) => {
   const datasets = [];
   let colorIndex = 0;
   for (const source in sentimentScores) {
-    datasets.push({
-      label: source,
-      data: sentimentScores[source].slice(firstYearIndex, lastYearIndex),
-      fill: false,
-      backgroundColor: colors[colorIndex],
-      borderColor: colors[colorIndex++] + '55',
-      yAxisID: 'y-axis-1',
-    });
+    if (sources.has(source)) {
+      datasets.push({
+        label: source,
+        data: sentimentScores[source].slice(firstYearIndex, lastYearIndex),
+        fill: false,
+        backgroundColor: colors[colorIndex],
+        borderColor: colors[colorIndex++] + '55',
+        yAxisID: 'y-axis-1',
+      });
+    }
   }
 
   const graphData = {
