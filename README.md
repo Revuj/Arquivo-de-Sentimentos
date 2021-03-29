@@ -17,4 +17,4 @@
 
 If everything works according to plan, you should see the following screen after running the previous scripts. You can pick dates using the range picker and the graph will change dynamically!
 
-![Main Page](https://imgur.com/mIngARG.png)
+![Main Page](https://imgur.com/kkw2XzC.png)
