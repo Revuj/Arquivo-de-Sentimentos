@@ -89,35 +89,32 @@ def analyze_sentiment(text_content):
 
     response = client.analyze_sentiment(request = {'document': document, 'encoding_type': encoding_type})
     # Get overall sentiment of the input document
-    print(u"Document sentiment score: {}".format(response.document_sentiment.score))
-    print(
-        u"Document sentiment magnitude: {}".format(
-            response.document_sentiment.magnitude
-        )
-    )
+    # print(u"Document sentiment score: {}".format(response.document_sentiment.score))
+    # print(
+    #     u"Document sentiment magnitude: {}".format(
+    #         response.document_sentiment.magnitude
+    #     )
+    # )
     # Get sentiment for all sentences in the document
-    for sentence in response.sentences:
-        print(u"Sentence text: {}".format(sentence.text.content))
-        print(u"Sentence sentiment score: {}".format(sentence.sentiment.score))
-        print(u"Sentence sentiment magnitude: {}".format(sentence.sentiment.magnitude))
+    # for sentence in response.sentences:
+        # print(u"Sentence text: {}".format(sentence.text.content))
+        # print(u"Sentence sentiment score: {}".format(sentence.sentiment.score))
+        # print(u"Sentence sentiment magnitude: {}".format(sentence.sentiment.magnitude))
 
     # Get the language of the text, which will be the same as
     # the language specified in the request or, if not specified,
     # the automatically-detected language.
-    print(u"Language of the text: {}".format(response.language))
-    return {"score": response.document_sentiment.score, "magnitude": response.document_sentiment.magnitude}
+    # print(u"Language of the text: {}".format(response.language))
+    return response.document_sentiment.score, response.document_sentiment.magnitude
 
-# example_text = 'André Ventura entregou em janeiro, ao Tribunal Constitucional, cerca de oito mil assinaturas, com a intenção de formalizar o movimento "Chega" como partido político. Parte dessas assinaturas foram invalidadas por pertencerem a menores e a elementos de forças policiais, pelo que, para já, o Chega ainda não pode candidatar-se a eleições. De forma a, ainda assim, poder candidatar-se às europeias, André Ventura propôs-se encabeçar a coligação de centro-direita, que adotaria o nome "Coligação Chega", e que incluiria o Partido Popular Monárquico (PPM), o Partido Cidadania e Democracia Cristã (PCDC) e membros do movimento Democracia 21. Depois de ter sido dado como certo que Ventura seria cabeça de lista da coligação às eleições europeias, o PPM decidiu em Conselho Nacional que não aceita acolhê-lo nas suas listas de candidatos, e que rejeita uma coligação com qualquer movimento ou partido que o acolha, considerando-o " racista e populista ". Dada a sucessão de percalços no percurso de André Ventura, Ricardo Araújo Pereira lamenta que, de todos os comentadores de desporto da CMTV, tenha sido André Ventura a tentar encabeçar um projeto político: "Acho que quer Octávio Machado, quer Paulo Futre, têm um pensamento político mais coerente e mais profundo". O humorista ilustra o seu ponto, questionando o slogan de um dos cartazes de André Ventura, que diz: "100 deputados chega e sobra!" - "Ora, nesse caso, pode cortar mais ainda! Passam a 50! É um populista que nem sequer sabe ser populista!", conclui.'
-# analyze_sentiment(example_text)
-
-
-def analysis(entity):
-  urls_by_year = newsfetcher.get_articles_urls(entity, "www.publico.pt")
+def analysis(entity, source_url):
+  urls_by_year = newsfetcher.get_articles_urls(entity, source_url)
   content_by_year = newsfetcher.get_articles_content(urls_by_year)
   
-  analysis_by_year = {}
+  score_by_year = []
   for year, content in content_by_year.items():
-    analysis_by_year[year] = analyze_sentiment(content)
+    score, magnitude = analyze_sentiment(content)
+    score_by_year.append(score)
 
-  return analysis_by_year
+  return score_by_year
 

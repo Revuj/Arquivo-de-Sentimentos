@@ -5,7 +5,7 @@ import axios from 'axios';
 import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
 
-const newsSources = ['Correio da Manhã', 'Jornal de Notícias'];
+const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
 function Main() {
   const [form, setForm] = useState({

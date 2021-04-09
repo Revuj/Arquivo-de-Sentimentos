@@ -14,12 +14,12 @@ const SentimentChart = ({
   const colors = [
     '#0346f2',
     '#a522d9',
-    '#e200b6',
     '#ff008f',
     '#ff1369',
     '#ff5547',
     '#ff8126',
     '#ffa600',
+    '#e200b6',
   ];
 
   const labels = [

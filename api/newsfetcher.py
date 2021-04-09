@@ -40,8 +40,6 @@ def parse_article(url):
 def get_articles_urls(entity, source):
   urls_by_year = {}
 
-  # Unfortunately, the Arquivo API only returns a maximum of 2000 items per request
-  # So in order to not risk lose too many items, we make a request for each year 
   for year in years:
     parameters = {
       "q": entity,

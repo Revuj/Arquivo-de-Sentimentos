@@ -10,9 +10,15 @@ def get_current_time():
 
 @app.route('/analyse/<entity>', methods=['POST', 'GET'])
 def analyse(entity):
-    result = analysis.analysis(entity)
+    # sources = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
+    sources = {'Público': 'www.publico.pt'}
+    
     results = { 'Correio da Manhã' : [5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 4, 5] , 
                 'Jornal de Notícias' : [3, 3 , 0, 0, 4, 3, 5, 1, 4, 3, 3, 3 , 3, 5, 3, 2, 1, 1, 0, 3, 4, 5] }
-    print(result)
+    
+    for source, url in sources.items():
+        analysis_by_year = analysis.analysis(entity, url)
+        results[source] = analysis_by_year
+
     return results
 
