@@ -114,7 +114,10 @@ def analyze_sentiment(text_content):
 def analysis(entity):
   urls_by_year = newsfetcher.get_articles_urls(entity, "www.publico.pt")
   content_by_year = newsfetcher.get_articles_content(urls_by_year)
-  # entities = analyze_entities(article_content)
-#   sentiment_analysis = analyze_sentiment(article_content)
-  return content_by_year
+  
+  analysis_by_year = {}
+  for year, content in content_by_year.items():
+    analysis_by_year[year] = analyze_sentiment(content)
+
+  return analysis_by_year
 
