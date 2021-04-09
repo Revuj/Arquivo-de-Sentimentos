@@ -1,22 +1,12 @@
 import sys
 import requests
-# newspaper lybrary: https://newspaper.readthedocs.io/en/latest/
-from newspaper import Article
 from google.cloud import language_v1
 # API Basics: https://cloud.google.com/natural-language/docs/basics
 from google.cloud import language_v1
 import newsfetcher
 
 
-def parse_article(url):
-  article = Article(url, language='pt')
-  article.download()
-  article.parse()
-  # Parsing is dependent of the source annotation
-  # print("Article Authors: {}".format(article.authors))
-  # print("Article Date: {}".format(article.publish_date))
-  # print("Article Content: {}".format(article.text))
-  return article.text
+
 
 def analyze_entities(text_content):
     """
@@ -122,9 +112,9 @@ def analyze_sentiment(text_content):
 
 
 def analysis(entity):
-#   article_content = parse_article(url)
-  articles_urls = newsfetcher.get_articles_urls(entity, "www.publico.pt")
+  urls_by_year = newsfetcher.get_articles_urls(entity, "www.publico.pt")
+  content_by_year = newsfetcher.get_articles_content(urls_by_year)
   # entities = analyze_entities(article_content)
 #   sentiment_analysis = analyze_sentiment(article_content)
-  return articles_urls
+  return content_by_year
 

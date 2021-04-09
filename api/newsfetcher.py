@@ -1,3 +1,5 @@
+# newspaper lybrary: https://newspaper.readthedocs.io/en/latest/
+from newspaper import Article
 import requests
 
 years = [
@@ -25,8 +27,18 @@ years = [
     '2021',
   ]
 
+def parse_article(url):
+  article = Article(url, language='pt')
+  article.download()
+  article.parse()
+  # Parsing is dependent of the source annotation
+  # print("Article Authors: {}".format(article.authors))
+  # print("Article Date: {}".format(article.publish_date))
+  # print("Article Content: {}".format(article.text))
+  return article.text
+
 def get_articles_urls(entity, source):
-  urlsByYear = {}
+  urls_by_year = {}
 
   # Unfortunately, the Arquivo API only returns a maximum of 2000 items per request
   # So in order to not risk lose too many items, we make a request for each year 
@@ -48,6 +60,21 @@ def get_articles_urls(entity, source):
       for item in response_items:
         urls.append(item['linkToOriginalFile'])
 
-    urlsByYear[year] = urls
+    urls_by_year[year] = urls
 
-  return urlsByYear
+  print(urls_by_year)
+  return urls_by_year
+
+def get_articles_content(urls_by_year):
+  content_by_year = {}
+
+  for year in years:
+    year_content = ""
+    urls = urls_by_year[year]
+    for url in urls:
+      year_content += parse_article(url)
+
+    content_by_year[year] = year_content
+      
+  return content_by_year
+
