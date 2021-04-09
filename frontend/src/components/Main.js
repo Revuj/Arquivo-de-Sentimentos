@@ -23,10 +23,17 @@ function Main() {
 
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
+    setLoadingSources((prev) => new Set(prev.add(source)));
+
     axios.get('/analyse', { params }).then((res) => {
-      setSentimentScores(res.data);
+      console.log(res.data);
+      setSentimentScores((prev) => ({ ...prev, ...res.data }));
+      setLoadingSources(
+        (prev) => new Set([...prev].filter((x) => x !== source))
+      );
     });
   };
+
   const handleSubmit = () => {
     // load first checked sources
     sources.forEach((source) => {
@@ -92,6 +99,9 @@ function Main() {
                       />
                       <span>{source}</span>
                     </label>
+                    {loadingSources.has(source) && (
+                      <div className="loader"></div>
+                    )}
                   </li>
                 );
               })}
