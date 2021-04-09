@@ -23,7 +23,7 @@ function Main() {
   };
 
   const handleSubmit = () => {
-    axios.post('/analyse', form).then((res) => {
+    axios.get(`/analyse/${form.entity}`).then((res) => {
       setSentimentScores(res.data);
     });
   };
