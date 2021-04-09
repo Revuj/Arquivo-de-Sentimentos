@@ -14,18 +14,32 @@ function Main() {
   const [sentimentScores, setSentimentScores] = useState({});
   const [years, setYears] = useState([2010, 2021]);
   const [sources, setSources] = useState(new Set(newsSources));
-
-  const [checked, setChecked] = useState(true);
+  const [loadingSources, setLoadingSources] = useState(new Set());
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = () => {
-    axios.get(`/analyse/${form.entity}`).then((res) => {
+  const requestAnalysis = (entity, source) => {
+    let params = { entity, source };
+    axios.get('/analyse', { params }).then((res) => {
       setSentimentScores(res.data);
     });
+  };
+  const handleSubmit = () => {
+    // load first checked sources
+    sources.forEach((source) => {
+      requestAnalysis(form.entity, source);
+    });
+
+    // then the rest
+    // commented for test purposes
+    // newsSources.forEach((source) => {
+    //   if (!sources.has(source)) {
+    //     requestAnalysis(form.entity, source);
+    //   }
+    // });
   };
 
   const toggleSource = (source) => {
@@ -34,7 +48,6 @@ function Main() {
     } else {
       setSources((prev) => new Set(prev.add(source)));
     }
-    console.log(source);
   };
 
   return (
