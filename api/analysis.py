@@ -5,6 +5,7 @@ from newspaper import Article
 from google.cloud import language_v1
 # API Basics: https://cloud.google.com/natural-language/docs/basics
 from google.cloud import language_v1
+import newsfetcher
 
 
 def parse_article(url):
@@ -119,24 +120,10 @@ def analyze_sentiment(text_content):
 # example_text = 'André Ventura entregou em janeiro, ao Tribunal Constitucional, cerca de oito mil assinaturas, com a intenção de formalizar o movimento "Chega" como partido político. Parte dessas assinaturas foram invalidadas por pertencerem a menores e a elementos de forças policiais, pelo que, para já, o Chega ainda não pode candidatar-se a eleições. De forma a, ainda assim, poder candidatar-se às europeias, André Ventura propôs-se encabeçar a coligação de centro-direita, que adotaria o nome "Coligação Chega", e que incluiria o Partido Popular Monárquico (PPM), o Partido Cidadania e Democracia Cristã (PCDC) e membros do movimento Democracia 21. Depois de ter sido dado como certo que Ventura seria cabeça de lista da coligação às eleições europeias, o PPM decidiu em Conselho Nacional que não aceita acolhê-lo nas suas listas de candidatos, e que rejeita uma coligação com qualquer movimento ou partido que o acolha, considerando-o " racista e populista ". Dada a sucessão de percalços no percurso de André Ventura, Ricardo Araújo Pereira lamenta que, de todos os comentadores de desporto da CMTV, tenha sido André Ventura a tentar encabeçar um projeto político: "Acho que quer Octávio Machado, quer Paulo Futre, têm um pensamento político mais coerente e mais profundo". O humorista ilustra o seu ponto, questionando o slogan de um dos cartazes de André Ventura, que diz: "100 deputados chega e sobra!" - "Ora, nesse caso, pode cortar mais ainda! Passam a 50! É um populista que nem sequer sabe ser populista!", conclui.'
 # analyze_sentiment(example_text)
 
-def get_articles_urls(entity, source):
-  parameters = {
-    "q": entity,
-    "siteSearch": source
-  }
-  req = requests.get("https://arquivo.pt/textsearch", params=parameters)
-  urls = []
-  if req.status_code == 200:
-    response_json = req.json()
-    response_items = response_json['response_items']
-    for item in response_items:
-      urls.append(item['linkToOriginalFile'])
-  return urls
-
 
 def analysis(entity):
 #   article_content = parse_article(url)
-  articles_urls = get_articles_urls(entity, "www.publico.pt")
+  articles_urls = newsfetcher.get_articles_urls(entity, "www.publico.pt")
   # entities = analyze_entities(article_content)
 #   sentiment_analysis = analyze_sentiment(article_content)
   return articles_urls

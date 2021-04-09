@@ -9,7 +9,7 @@ const newsSources = ['Correio da Manhã', 'Jornal de Notícias'];
 
 function Main() {
   const [form, setForm] = useState({
-    entity: 'Andre Ventura',
+    entity: 'André Ventura',
   });
   const [sentimentScores, setSentimentScores] = useState({});
   const [years, setYears] = useState([2010, 2021]);
