@@ -5,7 +5,9 @@ from google.cloud import language_v1
 from google.cloud import language_v1
 import newsfetcher
 
+from pymongo import MongoClient
 
+sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
 
 def analyze_entities(text_content):
@@ -107,14 +109,32 @@ def analyze_sentiment(text_content):
     # print(u"Language of the text: {}".format(response.language))
     return response.document_sentiment.score, response.document_sentiment.magnitude
 
-def analysis(entity, source_url):
-  urls_by_year = newsfetcher.get_articles_urls(entity, source_url)
-  content_by_year = newsfetcher.get_articles_content(urls_by_year)
-  
-  score_by_year = []
-  for year, content in content_by_year.items():
-    score, magnitude = analyze_sentiment(content)
-    score_by_year.append(score)
+def analysis(entity, source):
 
-  return score_by_year
+  client = MongoClient('mongodb://ArquivoSentimentos:ArquivoSentimentos@cluster0-shard-00-00.xjlhf.mongodb.net:27017,cluster0-shard-00-01.xjlhf.mongodb.net:27017,cluster0-shard-00-02.xjlhf.mongodb.net:27017/ArquivoSentimentos?ssl=true&replicaSet=atlas-13w6jb-shard-0&authSource=admin&retryWrites=true&w=majority')
+  db = client.ArquivoSentimentos
+
+  query = {"name": entity, 'website': source }
+
+  doc = db.ArquivoSentimentos.find_one(query)
+
+  if doc:
+    return doc['values']
+  else:
+    urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
+    content_by_year = newsfetcher.get_articles_content(urls_by_year)
+
+    score_by_year = []
+    for year, content in content_by_year.items():
+      score, magnitude = analyze_sentiment(content)
+      score_by_year.append(score)
+
+    element = {
+      'name': entity,
+      'website': source,
+      'values': score_by_year , 
+    }
+    db.ArquivoSentimentos.insert_one(element)
+
+    return score_by_year
 
