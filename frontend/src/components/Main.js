@@ -88,15 +88,13 @@ function Main() {
                 return (
                   <li
                     key={source}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleSource(source);
-                    }}
                   >
                     <label className="container">
                       <input
                         type="checkbox"
                         checked={sources.has(source)}
+                        onClick={(e) => {e.stopPropagation(); toggleSource(source);}}
+                        onChange={() => {}} // To remove console warning
                         className="radio-source"
                       />
                       <span>{source}</span>
