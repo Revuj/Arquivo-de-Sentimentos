@@ -22,9 +22,9 @@ def analyse():
     
 
     # Real Sentiment Analysis (be aware that it really takes a while - approx 3min)
-    analysis_by_year = analysis.analysis(entity, source)
+    analysis_by_year, magnitude_by_year = analysis.analysis(entity, source)
     # return { 'Público' : [5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 4, 5]}
-    return { source : analysis_by_year}
+    return { 'sentiment': { source : analysis_by_year }, 'magnitude': { source : magnitude_by_year } }
 
     # Mock Responses (use this to test UI changes pls)
     # time.sleep(2)

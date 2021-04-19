@@ -12,6 +12,7 @@ function Main() {
     entity: 'André Ventura',
   });
   const [sentimentScores, setSentimentScores] = useState({});
+  const [magnitudeScores, setMagnitudeScores] = useState({});
   const [years, setYears] = useState([2010, 2021]);
   const [sources, setSources] = useState(new Set(newsSources));
   const [loadingSources, setLoadingSources] = useState(new Set());
@@ -27,7 +28,8 @@ function Main() {
 
     axios.get('/analyse', { params }).then((res) => {
       console.log(res.data);
-      setSentimentScores((prev) => ({ ...prev, ...res.data }));
+      setSentimentScores((prev) => ({ ...prev, ...res.data.sentiment }));
+      setMagnitudeScores((prev) => ({ ...prev, ...res.data.magnitude }));
       setLoadingSources(
         (prev) => new Set([...prev].filter((x) => x !== source))
       );
@@ -111,16 +113,29 @@ function Main() {
           </Button>
         </Form>
       </div>
-      <div id="output" className="main-card">
-        <div className="card-header">
-          <h4 className="card-title">Sentiment Analysis</h4>
+      <div id="output">
+        <div className="main-card">
+          <div className="card-header">
+            <h4 className="card-title">Sentiment Analysis</h4>
+          </div>
+          <SentimentChart
+            sentimentScores={sentimentScores}
+            firstYearIndex={years[0] - 2000}
+            lastYearIndex={years[1] - 2000 + 1}
+            sources={sources}
+          />
         </div>
-        <SentimentChart
-          sentimentScores={sentimentScores}
-          firstYearIndex={years[0] - 2000}
-          lastYearIndex={years[1] - 2000 + 1}
-          sources={sources}
-        />
+        <div className="main-card">
+          <div className="card-header">
+            <h4 className="card-title">Magnitude Analysis</h4>
+          </div>
+          <SentimentChart
+            sentimentScores={magnitudeScores}
+            firstYearIndex={years[0] - 2000}
+            lastYearIndex={years[1] - 2000 + 1}
+            sources={sources}
+          />
+        </div>
       </div>
     </div>
   );

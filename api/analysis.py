@@ -119,22 +119,25 @@ def analysis(entity, source):
   doc = db.ArquivoSentimentos.find_one(query)
 
   if doc:
-    return doc['values']
+    return [doc['sentiment'], doc['magnitude']]
   else:
     urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
     content_by_year = newsfetcher.get_articles_content(urls_by_year)
 
     score_by_year = []
+    magnitude_by_year = []
     for year, content in content_by_year.items():
       score, magnitude = analyze_sentiment(content)
       score_by_year.append(score)
+      magnitude_by_year.append(magnitude)
 
     element = {
       'name': entity,
       'website': source,
-      'values': score_by_year , 
+      'sentiment': score_by_year , 
+      'magnitude': magnitude_by_year , 
     }
     db.ArquivoSentimentos.insert_one(element)
 
-    return score_by_year
+    return [score_by_year, magnitude_by_year]
 
