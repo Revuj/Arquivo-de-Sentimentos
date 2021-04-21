@@ -42,7 +42,7 @@ def get_articles_urls(entity, source):
 
   for year in years:
     parameters = {
-      "q": entity,
+      "q": f"\"{entity}\"",
       "siteSearch": source,
       "maxItems": 2000,
       "from": year+"0101000000",
@@ -56,7 +56,8 @@ def get_articles_urls(entity, source):
       response_json = req.json()
       response_items = response_json['response_items']
       for item in response_items:
-        urls.append(item['linkToOriginalFile'])
+        if entity in item['title']:
+          urls.append(item['linkToOriginalFile'])
 
     urls_by_year[year] = urls
 
