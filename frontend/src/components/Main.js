@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { HiPlusCircle } from 'react-icons/hi';
+import { BiDownload } from 'react-icons/bi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
@@ -59,8 +60,8 @@ function Main() {
     }
   };
 
-  return (
-    <div id="main-content">
+  const inputSection = () => {
+    return (
       <div id="input" className="main-card">
         <div className="card-header">
           <h4 className="card-title">Search Personality</h4>
@@ -86,14 +87,15 @@ function Main() {
             {sources &&
               newsSources.map((source) => {
                 return (
-                  <li
-                    key={source}
-                  >
+                  <li key={source}>
                     <label className="container">
                       <input
                         type="checkbox"
                         checked={sources.has(source)}
-                        onClick={(e) => {e.stopPropagation(); toggleSource(source);}}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSource(source);
+                        }}
                         onChange={() => {}} // To remove console warning
                         className="radio-source"
                       />
@@ -111,10 +113,19 @@ function Main() {
           </Button>
         </Form>
       </div>
+    );
+  };
+
+  const outputSection = () => {
+    return (
       <div id="output">
         <div className="main-card">
           <div className="card-header">
             <h4 className="card-title">Sentiment Analysis</h4>
+            <button type="button" className="export-button">
+              <BiDownload size={16} className="export-icon" />
+              Export
+            </button>
           </div>
           <SentimentChart
             sentimentScores={sentimentScores}
@@ -126,6 +137,10 @@ function Main() {
         <div className="main-card">
           <div className="card-header">
             <h4 className="card-title">Magnitude Analysis</h4>
+            <button type="button" className="export-button">
+              <BiDownload size={16} className="export-icon" />
+              Export
+            </button>
           </div>
           <SentimentChart
             sentimentScores={magnitudeScores}
@@ -135,6 +150,13 @@ function Main() {
           />
         </div>
       </div>
+    );
+  };
+
+  return (
+    <div id="main-content">
+      {inputSection()}
+      {outputSection()}
     </div>
   );
 }
