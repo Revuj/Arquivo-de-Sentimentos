@@ -85,6 +85,7 @@ nav > * {
   background: none;
   border: none;
   display: flex;
+  height: 54px;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -101,6 +102,17 @@ label {
   color: var(--status);
   cursor: pointer;
   transition: 0.3s;
+}
+
+.close-modal-button {
+  color: var(--gray);
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+.close-modal-button:hover {
+  color: var(--dark);
 }
 
 .card-title {
@@ -124,10 +136,11 @@ input.entity-name::placeholder {
   color: var(--light-gray);
 }
 
-#search-button {
+#search-button,
+#confirm-export-button {
   width: 100%;
   background-color: var(--accent);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   border-radius: 10px;
@@ -136,7 +149,8 @@ input.entity-name::placeholder {
 }
 
 #search-button:hover,
-#add-entity-button:hover {
+#add-entity-button:hover,
+#close-modal-button:hover {
   filter: drop-shadow(4px 4px 5px rgba(143, 143, 143, 0.25));
 }
 
@@ -224,4 +238,34 @@ input.entity-name::placeholder {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.backdrop .modal-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  width: 400px;
+  transform: translate(-50%, -50%);
+  box-shadow: 3px 5px 7px rgba(0, 0, 0, 0.5);
+  background-color: white;
+}
+
+.modal-caption {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #8e94a7;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--light-gray);
 }

@@ -5,6 +5,7 @@ import { BiDownload } from 'react-icons/bi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
+import ExportModal from './ExportModal';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
@@ -17,6 +18,7 @@ function Main() {
   const [years, setYears] = useState([2010, 2021]);
   const [sources, setSources] = useState(new Set(newsSources));
   const [loadingSources, setLoadingSources] = useState(new Set());
+  const [showExportModal, setShowExportModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,7 +98,7 @@ function Main() {
                           e.stopPropagation();
                           toggleSource(source);
                         }}
-                        onChange={() => {}} // To remove console warning
+                        onChange={() => {}}
                         className="radio-source"
                       />
                       <span>{source}</span>
@@ -122,7 +124,13 @@ function Main() {
         <div className="main-card">
           <div className="card-header">
             <h4 className="card-title">Sentiment Analysis</h4>
-            <button type="button" className="export-button">
+            <button
+              type="button"
+              className="export-button"
+              onClick={() => {
+                setShowExportModal(true);
+              }}
+            >
               <BiDownload size={16} className="export-icon" />
               Export
             </button>
@@ -137,7 +145,13 @@ function Main() {
         <div className="main-card">
           <div className="card-header">
             <h4 className="card-title">Magnitude Analysis</h4>
-            <button type="button" className="export-button">
+            <button
+              type="button"
+              className="export-button"
+              onClick={() => {
+                setShowExportModal(true);
+              }}
+            >
               <BiDownload size={16} className="export-icon" />
               Export
             </button>
@@ -149,6 +163,7 @@ function Main() {
             sources={sources}
           />
         </div>
+        {showExportModal && <ExportModal setShowModal={setShowExportModal} />}
       </div>
     );
   };
