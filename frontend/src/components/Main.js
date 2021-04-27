@@ -19,6 +19,8 @@ function Main() {
   const [sources, setSources] = useState(new Set(newsSources));
   const [loadingSources, setLoadingSources] = useState(new Set());
   const [showExportModal, setShowExportModal] = useState(false);
+  const [exportTitle, setExportTitle] = useState('');
+  const [exportData, setExportData] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -123,12 +125,14 @@ function Main() {
       <div id="output">
         <div className="main-card">
           <div className="card-header">
-            <h4 className="card-title">Sentiment Analysis</h4>
+            <h4 className="card-title">Sentiment Score</h4>
             <button
               type="button"
               className="export-button"
               onClick={() => {
                 setShowExportModal(true);
+                setExportTitle('sentiment_score');
+                setExportData(sentimentScores);
               }}
             >
               <BiDownload size={16} className="export-icon" />
@@ -144,12 +148,14 @@ function Main() {
         </div>
         <div className="main-card">
           <div className="card-header">
-            <h4 className="card-title">Magnitude Analysis</h4>
+            <h4 className="card-title">Sentiment Magnitude</h4>
             <button
               type="button"
               className="export-button"
               onClick={() => {
                 setShowExportModal(true);
+                setExportTitle('magnitude_score');
+                setExportData(magnitudeScores);
               }}
             >
               <BiDownload size={16} className="export-icon" />
@@ -163,7 +169,6 @@ function Main() {
             sources={sources}
           />
         </div>
-        {showExportModal && <ExportModal setShowModal={setShowExportModal} />}
       </div>
     );
   };
@@ -172,6 +177,13 @@ function Main() {
     <div id="main-content">
       {inputSection()}
       {outputSection()}
+      {showExportModal && (
+        <ExportModal
+          setShowModal={setShowExportModal}
+          title={exportTitle}
+          data={exportData}
+        />
+      )}
     </div>
   );
 }

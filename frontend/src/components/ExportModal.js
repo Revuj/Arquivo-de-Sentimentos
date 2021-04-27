@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import { HiX } from 'react-icons/hi';
+import { exportCsv } from '../utils/exportCsv';
 
 const formats = ['csv', 'pdf', 'image'];
 
-const ExportModal = ({ setShowModal }) => {
+const ExportModal = ({ setShowModal, title, data }) => {
   const [selectedFormats, setSelectedFormats] = useState(new Set());
 
   const handleClick = (e) => {
@@ -19,6 +20,21 @@ const ExportModal = ({ setShowModal }) => {
     } else {
       setSelectedFormats((prev) => new Set(prev.add(format)));
     }
+  };
+
+  const exportPdf = () => {
+    console.log('Exporting pdf');
+  };
+
+  const exportImage = () => {
+    console.log('Exporting image');
+  };
+
+  const exportResults = () => {
+    console.log('Exporting');
+    if (selectedFormats.has('csv')) exportCsv(data, title);
+    if (selectedFormats.has('pdf')) exportPdf();
+    if (selectedFormats.has('image')) exportImage();
   };
 
   return (
@@ -60,7 +76,11 @@ const ExportModal = ({ setShowModal }) => {
             );
           })}
         </ul>
-        <Button type="button" id="confirm-export-button">
+        <Button
+          type="button"
+          id="confirm-export-button"
+          onClick={() => exportResults()}
+        >
           Confirm
         </Button>
       </div>
