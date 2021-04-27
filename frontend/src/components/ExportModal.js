@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Button } from 'reactstrap';
 import { HiX } from 'react-icons/hi';
 import { exportCsv } from '../utils/exportCsv';
 
 const formats = ['csv', 'pdf', 'image'];
 
-const ExportModal = ({ setShowModal, title, data }) => {
+const ExportModal = ({ setShowModal, title, data, exportPdf, exportImage }) => {
   const [selectedFormats, setSelectedFormats] = useState(new Set());
 
   const handleClick = (e) => {
@@ -22,19 +22,11 @@ const ExportModal = ({ setShowModal, title, data }) => {
     }
   };
 
-  const exportPdf = () => {
-    console.log('Exporting pdf');
-  };
-
-  const exportImage = () => {
-    console.log('Exporting image');
-  };
-
   const exportResults = () => {
     console.log('Exporting');
     if (selectedFormats.has('csv')) exportCsv(data, title);
-    if (selectedFormats.has('pdf')) exportPdf();
-    if (selectedFormats.has('image')) exportImage();
+    if (selectedFormats.has('pdf')) exportPdf(title);
+    if (selectedFormats.has('image')) exportImage(title);
   };
 
   return (

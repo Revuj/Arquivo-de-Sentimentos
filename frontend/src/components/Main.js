@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {
+  exportComponentAsJPEG,
+  exportComponentAsPDF,
+} from 'react-component-export-image';
 import { HiPlusCircle } from 'react-icons/hi';
 import { BiDownload } from 'react-icons/bi';
 import axios from 'axios';
@@ -21,6 +25,9 @@ function Main() {
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportTitle, setExportTitle] = useState('');
   const [exportData, setExportData] = useState({});
+
+  const scoreCardRef = createRef();
+  const magnitudeCardRef = createRef();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -120,24 +127,39 @@ function Main() {
     );
   };
 
+  const exportPdf = (fileName) => {
+    exportComponentAsPDF('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
+      fileName,
+      pdfOptions: { w: 760, h: 458, unit: 'pt', orientation: 'p' },
+    });
+  };
+
+  const exportImage = (fileName) => {
+    exportComponentAsJPEG('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
+      fileName: `${fileName}.jpg`,
+    });
+  };
+
   const outputSection = () => {
     return (
       <div id="output">
-        <div className="main-card">
+        <div className="main-card" ref={scoreCardRef}>
           <div className="card-header">
             <h4 className="card-title">Sentiment Score</h4>
-            <button
-              type="button"
-              className="export-button"
-              onClick={() => {
-                setShowExportModal(true);
-                setExportTitle('sentiment_score');
-                setExportData(sentimentScores);
-              }}
-            >
-              <BiDownload size={16} className="export-icon" />
-              Export
-            </button>
+            {!showExportModal && (
+              <button
+                type="button"
+                className="export-button"
+                onClick={() => {
+                  setShowExportModal(true);
+                  setExportTitle('sentiment_score');
+                  setExportData(sentimentScores);
+                }}
+              >
+                <BiDownload size={16} className="export-icon" />
+                Export
+              </button>
+            )}
           </div>
           <SentimentChart
             sentimentScores={sentimentScores}
@@ -146,21 +168,23 @@ function Main() {
             sources={sources}
           />
         </div>
-        <div className="main-card">
+        <div className="main-card" ref={magnitudeCardRef}>
           <div className="card-header">
             <h4 className="card-title">Sentiment Magnitude</h4>
-            <button
-              type="button"
-              className="export-button"
-              onClick={() => {
-                setShowExportModal(true);
-                setExportTitle('magnitude_score');
-                setExportData(magnitudeScores);
-              }}
-            >
-              <BiDownload size={16} className="export-icon" />
-              Export
-            </button>
+            {!showExportModal && (
+              <button
+                type="button"
+                className="export-button"
+                onClick={() => {
+                  setShowExportModal(true);
+                  setExportTitle('magnitude_score');
+                  setExportData(magnitudeScores);
+                }}
+              >
+                <BiDownload size={16} className="export-icon" />
+                Export
+              </button>
+            )}
           </div>
           <SentimentChart
             sentimentScores={magnitudeScores}
@@ -173,17 +197,23 @@ function Main() {
     );
   };
 
+  const exportModal = () => {
+    return (
+      <ExportModal
+        setShowModal={setShowExportModal}
+        title={exportTitle}
+        data={exportData}
+        exportPdf={exportPdf}
+        exportImage={exportImage}
+      />
+    );
+  };
+
   return (
     <div id="main-content">
       {inputSection()}
       {outputSection()}
-      {showExportModal && (
-        <ExportModal
-          setShowModal={setShowExportModal}
-          title={exportTitle}
-          data={exportData}
-        />
-      )}
+      {showExportModal && exportModal()}
     </div>
   );
 }

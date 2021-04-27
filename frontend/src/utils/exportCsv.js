@@ -48,5 +48,5 @@ export const exportCsv = (data, filename) => {
   }
   options.filename = filename;
   const csvExporter = new ExportToCsv(options);
-  csvExporter.generateCsv(jsonData);
+  csvExporter.generateCsv(jsonData.length > 0 ? jsonData : [{}]);
 };
