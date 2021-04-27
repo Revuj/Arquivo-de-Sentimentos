@@ -115,12 +115,74 @@ label {
   color: var(--dark);
 }
 
+.card-title-container {
+  display: flex;
+  align-items: center;
+}
+
 .card-title {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   color: var(--dark);
   margin: 0;
+}
+
+.tooltip-icon {
+  fill: var(--gray);
+  margin-left: 2rem;
+  cursor: pointer;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  border-radius: 12px;
+  box-shadow: 8px 8px 16px 4px rgba(137, 143, 150, 0.04);
+  padding: 25px;
+  background-color: var(--accent);
+  color: var(--light-accent);
+  width: 320px;
+  top: 170%;
+  left: 50%;
+  margin-left: -100px;
+  position: absolute;
+  z-index: 1;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 24px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container:hover .tooltip-text {
+  opacity: 1;
+}
+
+.tooltip-container .tooltip-text::after {
+  content: ' ';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+  border-width: 15px;
+  border-style: solid;
+  border-color: transparent transparent var(--accent) transparent;
+}
+
+.gotit {
+  font-weight: 500;
+  font-size: 17px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+strong {
+  font-weight: 500;
 }
 
 input.entity-name {

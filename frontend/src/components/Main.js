@@ -5,7 +5,7 @@ import {
   exportComponentAsPDF,
 } from 'react-component-export-image';
 import { HiPlusCircle } from 'react-icons/hi';
-import { BiDownload } from 'react-icons/bi';
+import { BiDownload, BiInfoCircle } from 'react-icons/bi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
@@ -25,6 +25,7 @@ function Main() {
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportTitle, setExportTitle] = useState('');
   const [exportData, setExportData] = useState({});
+  const [showToolTip, setShowToolTip] = useState(true);
 
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
@@ -69,6 +70,19 @@ function Main() {
     } else {
       setSources((prev) => new Set(prev.add(source)));
     }
+  };
+
+  const exportPdf = (fileName) => {
+    exportComponentAsPDF('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
+      fileName,
+      pdfOptions: { w: 760, h: 458, unit: 'pt', orientation: 'p' },
+    });
+  };
+
+  const exportImage = (fileName) => {
+    exportComponentAsJPEG('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
+      fileName: `${fileName}.jpg`,
+    });
   };
 
   const inputSection = () => {
@@ -127,72 +141,130 @@ function Main() {
     );
   };
 
-  const exportPdf = (fileName) => {
-    exportComponentAsPDF('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
-      fileName,
-      pdfOptions: { w: 760, h: 458, unit: 'pt', orientation: 'p' },
-    });
+  const sentimentScore = () => {
+    return (
+      <div className="main-card" ref={scoreCardRef}>
+        <div className="card-header">
+          <span className="card-title-container">
+            <h4 className="card-title">Sentiment Score</h4>
+            <span
+              className="tooltip-container"
+              onMouseEnter={() => setShowToolTip('score')}
+              onMouseLeave={() => setShowToolTip(false)}
+            >
+              <BiInfoCircle size={20} className="tooltip-icon" />
+              <span
+                className="tooltip-text"
+                style={{
+                  visibility: showToolTip === 'score' ? 'visible' : 'hidden',
+                }}
+              >
+                <p>
+                  <strong>score</strong> of the sentiment ranges between -1.0
+                  (negative) and 1.0 (positive) and corresponds to the{' '}
+                  <strong>overall emotional leaning</strong> of the text.
+                </p>
+                <p
+                  className="gotit"
+                  onClick={() => {
+                    setShowToolTip(false);
+                  }}
+                >
+                  Got it
+                </p>
+              </span>
+            </span>
+          </span>
+          {!showExportModal && (
+            <button
+              type="button"
+              className="export-button"
+              onClick={() => {
+                setShowExportModal(true);
+                setExportTitle('sentiment_score');
+                setExportData(sentimentScores);
+              }}
+            >
+              <BiDownload size={16} className="export-icon" />
+              Export
+            </button>
+          )}
+        </div>
+        <SentimentChart
+          sentimentScores={sentimentScores}
+          firstYearIndex={years[0] - 2000}
+          lastYearIndex={years[1] - 2000 + 1}
+          sources={sources}
+        />
+      </div>
+    );
   };
 
-  const exportImage = (fileName) => {
-    exportComponentAsJPEG('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
-      fileName: `${fileName}.jpg`,
-    });
+  const sentimentMagnitude = () => {
+    return (
+      <div className="main-card" ref={magnitudeCardRef}>
+        <div className="card-header">
+          <span className="card-title-container">
+            <h4 className="card-title">Sentiment Magnitude</h4>
+            <span
+              className="tooltip-container"
+              onMouseEnter={() => setShowToolTip('magnitude')}
+              onMouseLeave={() => setShowToolTip(false)}
+            >
+              <BiInfoCircle size={20} className="tooltip-icon" />
+              <span
+                className="tooltip-text"
+                style={{
+                  visibility:
+                    showToolTip === 'magnitude' ? 'visible' : 'hidden',
+                }}
+              >
+                <p>
+                  <strong>magnitude</strong> indicates the{' '}
+                  <strong>overall strength of emotion</strong> (both positive
+                  and negative) within the given text, between 0.0 and +inf.
+                </p>
+                <p
+                  className="gotit"
+                  onClick={() => {
+                    setShowToolTip(false);
+                  }}
+                >
+                  Got it
+                </p>
+              </span>
+            </span>
+          </span>
+          {!showExportModal && (
+            <button
+              type="button"
+              className="export-button"
+              onClick={() => {
+                setShowExportModal(true);
+                setExportTitle('magnitude_score');
+                setExportData(magnitudeScores);
+              }}
+            >
+              <BiDownload size={16} className="export-icon" />
+              Export
+            </button>
+          )}
+        </div>
+        <SentimentChart
+          sentimentScores={magnitudeScores}
+          firstYearIndex={years[0] - 2000}
+          lastYearIndex={years[1] - 2000 + 1}
+          sources={sources}
+        />
+      </div>
+    );
   };
 
   const outputSection = () => {
     return (
       <div id="output">
-        <div className="main-card" ref={scoreCardRef}>
-          <div className="card-header">
-            <h4 className="card-title">Sentiment Score</h4>
-            {!showExportModal && (
-              <button
-                type="button"
-                className="export-button"
-                onClick={() => {
-                  setShowExportModal(true);
-                  setExportTitle('sentiment_score');
-                  setExportData(sentimentScores);
-                }}
-              >
-                <BiDownload size={16} className="export-icon" />
-                Export
-              </button>
-            )}
-          </div>
-          <SentimentChart
-            sentimentScores={sentimentScores}
-            firstYearIndex={years[0] - 2000}
-            lastYearIndex={years[1] - 2000 + 1}
-            sources={sources}
-          />
-        </div>
-        <div className="main-card" ref={magnitudeCardRef}>
-          <div className="card-header">
-            <h4 className="card-title">Sentiment Magnitude</h4>
-            {!showExportModal && (
-              <button
-                type="button"
-                className="export-button"
-                onClick={() => {
-                  setShowExportModal(true);
-                  setExportTitle('magnitude_score');
-                  setExportData(magnitudeScores);
-                }}
-              >
-                <BiDownload size={16} className="export-icon" />
-                Export
-              </button>
-            )}
-          </div>
-          <SentimentChart
-            sentimentScores={magnitudeScores}
-            firstYearIndex={years[0] - 2000}
-            lastYearIndex={years[1] - 2000 + 1}
-            sources={sources}
-          />
-        </div>
+        {sentimentScore()}
+        {sentimentMagnitude()}
       </div>
     );
   };
