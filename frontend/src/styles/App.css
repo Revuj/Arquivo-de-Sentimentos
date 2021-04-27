@@ -5,6 +5,7 @@
   --gray: #8e94a7;
   --light-gray: #e7e9f0;
   --status: #00d455;
+  --danger: #ff0000;
   --accent: #0346f2;
   --light-accent: #f2f5fe;
   --primary-font: 'Source Sans Pro', Arial, sans-serif;
@@ -102,6 +103,18 @@ label {
   color: var(--status);
   cursor: pointer;
   transition: 0.3s;
+}
+
+#minus-entity-button {
+  color: var(--danger);
+  cursor: pointer;
+  transition: 0.3s;
+  align-self: center;
+  margin-left: 8px;
+}
+
+#minus-entity-button.disabled {
+  color: var(--gray);
 }
 
 .close-modal-button {
@@ -213,6 +226,7 @@ input.entity-name::placeholder {
 
 #search-button:hover,
 #add-entity-button:hover,
+#minus-entity-button,
 #close-modal-button:hover {
   filter: drop-shadow(4px 4px 5px rgba(143, 143, 143, 0.25));
 }

@@ -4,7 +4,7 @@ import {
   exportComponentAsJPEG,
   exportComponentAsPDF,
 } from 'react-component-export-image';
-import { HiPlusCircle } from 'react-icons/hi';
+import { HiMinusCircle, HiPlusCircle } from 'react-icons/hi';
 import { BiDownload, BiInfoCircle } from 'react-icons/bi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
@@ -38,6 +38,20 @@ function Main({t}) {
       entities: form.entities.map((el, elI) => (elI === i ? e.target.value : el))
     });
   };
+
+  const handleAdd = () => {
+    setForm({
+      entities: form.entities.concat('')
+    })
+  }
+
+  const handleRemove = (i) => {
+    if (form.entities.length <= 1)
+      return;
+    setForm({
+      entities: form.entities.filter((el, elI) => elI !== i)
+    });
+  }
 
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
@@ -93,16 +107,19 @@ function Main({t}) {
     const entitiesElements = []
     form.entities.forEach((value, i) => {
       entitiesElements.push(
-        <Input
-          key={i}
-          type="text"
-          name="entity"
-          id="source-url"
-          className="entity-name"
-          placeholder="Write your entity in here"
-          value={value}
-          onChange={(e) => {handleChange(e, i)}}
-        />
+        <div className='d-flex'>
+          <Input
+            key={i}
+            type="text"
+            name="entity"
+            id="source-url"
+            className="entity-name"
+            placeholder="Write your entity in here"
+            value={value}
+            onChange={(e) => {handleChange(e, i)}}
+          />
+          <HiMinusCircle size={30} id="minus-entity-button" className={form.entities.length == 1? "disabled":""} onClick={() => {handleRemove(i)}} />
+        </div>
       );
     })
     return entitiesElements;
@@ -113,7 +130,7 @@ function Main({t}) {
       <div id="input" className="main-card">
         <div className="card-header">
           <h4 className="card-title">{t('search_personality')}</h4>
-          <HiPlusCircle size={30} id="add-entity-button" />
+          <HiPlusCircle size={30} id="add-entity-button" onClick={handleAdd} />
         </div>
         <Form>
           <FormGroup>
@@ -149,7 +166,7 @@ function Main({t}) {
               })}
           </ul>
           <Button id="search-button" onClick={handleSubmit}>
-	    {t('confirm')}
+	          {t('confirm')}
           </Button>
         </Form>
       </div>
@@ -186,7 +203,7 @@ function Main({t}) {
                     setShowToolTip(false);
                   }}
                 >
-		    {t('got_it')}
+		              {t('got_it')}
                 </p>
               </span>
             </span>
@@ -245,7 +262,7 @@ function Main({t}) {
                     setShowToolTip(false);
                   }}
                 >
-	    	{t('got_it')}
+	    	          {t('got_it')}
                 </p>
               </span>
             </span>
