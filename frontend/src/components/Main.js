@@ -11,9 +11,12 @@ import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 
+import { withTranslation } from 'react-i18next';
+
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
-function Main() {
+function Main({t}) {
+
   const [form, setForm] = useState({
     entities: ['André Ventura', 'Benfica']
   });
@@ -109,7 +112,7 @@ function Main() {
     return (
       <div id="input" className="main-card">
         <div className="card-header">
-          <h4 className="card-title">Search Personality</h4>
+          <h4 className="card-title">{t('search_personality')}</h4>
           <HiPlusCircle size={30} id="add-entity-button" />
         </div>
         <Form>
@@ -117,7 +120,7 @@ function Main() {
             {entitiesInput()}
           </FormGroup>
           <FormGroup id="years-range-group">
-            <Label for="years-range">Years to Analyse</Label>
+            <Label for="years-range">{t('year_analyse')}</Label>
             <YearsRange values={years} setValues={setYears} />
           </FormGroup>
           <ul id="selected-sources">
@@ -146,19 +149,20 @@ function Main() {
               })}
           </ul>
           <Button id="search-button" onClick={handleSubmit}>
-            Confirm
+	    {t('confirm')}
           </Button>
         </Form>
       </div>
     );
   };
 
+
   const sentimentScore = () => {
     return (
       <div className="main-card" ref={scoreCardRef}>
         <div className="card-header">
           <span className="card-title-container">
-            <h4 className="card-title">Sentiment Score</h4>
+            <h4 className="card-title">{t('sentiment_score')}</h4>
             <span
               className="tooltip-container"
               onMouseEnter={() => setShowToolTip('score')}
@@ -171,10 +175,10 @@ function Main() {
                   visibility: showToolTip === 'score' ? 'visible' : 'hidden',
                 }}
               >
+
                 <p>
-                  <strong>score</strong> of the sentiment ranges between -1.0
-                  (negative) and 1.0 (positive) and corresponds to the{' '}
-                  <strong>overall emotional leaning</strong> of the text.
+                  <strong>{t('sentiment_card_score')}</strong> {t('sentiment_card_part1')}{' '}
+                  <strong>{t('sentiment_card_strong')}</strong> {t('sentiment_card_part2')}.
                 </p>
                 <p
                   className="gotit"
@@ -182,7 +186,7 @@ function Main() {
                     setShowToolTip(false);
                   }}
                 >
-                  Got it
+		    {t('got_it')}
                 </p>
               </span>
             </span>
@@ -198,7 +202,7 @@ function Main() {
               }}
             >
               <BiDownload size={16} className="export-icon" />
-              Export
+              {t('export')}
             </button>
           )}
         </div>
@@ -217,7 +221,7 @@ function Main() {
       <div className="main-card" ref={magnitudeCardRef}>
         <div className="card-header">
           <span className="card-title-container">
-            <h4 className="card-title">Sentiment Magnitude</h4>
+            <h4 className="card-title">{t('sentiment_magnitude')}</h4>
             <span
               className="tooltip-container"
               onMouseEnter={() => setShowToolTip('magnitude')}
@@ -232,9 +236,8 @@ function Main() {
                 }}
               >
                 <p>
-                  <strong>magnitude</strong> indicates the{' '}
-                  <strong>overall strength of emotion</strong> (both positive
-                  and negative) within the given text, between 0.0 and +inf.
+                  <strong>{t('magnitude_card_magnitude')}</strong> {t('magnitude_card_part1')}{' '}
+                  <strong>{t('magnitude_card_strong')}</strong> {t('magnitude_card_part2')}.
                 </p>
                 <p
                   className="gotit"
@@ -242,7 +245,7 @@ function Main() {
                     setShowToolTip(false);
                   }}
                 >
-                  Got it
+	    	{t('got_it')}
                 </p>
               </span>
             </span>
@@ -302,4 +305,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default withTranslation() (Main);

@@ -1,0 +1,26 @@
+{
+  "sentiment_score": "Sentiment Score",
+  "sentiment_magnitude": "Sentiment Magnitude",
+  "export": "Export",
+  "language": "Language",
+  "explore": "Explore",
+  "about": "About",
+  "examples": "Exemples",
+  "search_personality": "Search Personality",
+  "year_analyse": "Years to analyse",
+  "confirm": "Confirm",
+
+  "sentiment_card_score": "score",
+  "sentiment_card_part1": "of the sentiment ranges between -1.0 (negative) and 1.0 (positive) and corresponds to the",
+  "sentiment_card_strong": "overall emotional leaning",
+  "sentiment_card_part2": "of the next",
+
+
+  "magnitude_card_magnitude": "magnitude",
+  "magnitude_card_part1": "indicates the",
+  "magnitude_card_strong": "overall strength of emotion",
+  "magnitude_card_part2": "within the given text, between 0.0 and +inf",
+
+
+  "got_it": "Got it"
+}

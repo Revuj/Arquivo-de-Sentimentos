@@ -15,11 +15,18 @@ import {
 } from 'reactstrap';
 import '../styles/Navbar.css';
 import Logo from '../assets/logo.svg';
+import { withTranslation } from 'react-i18next';
 
 const MainNavbar = (props) => {
+
+  const {t, i18n} = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const changeLanguage = (lng) => {
+	i18n.changeLanguage(lng);
+  };
 
   return (
     <div>
@@ -35,18 +42,18 @@ const MainNavbar = (props) => {
         <div className="header-divider"></div>
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem className="nav-item">Explore</NavItem>
-            <NavItem className="nav-item">About</NavItem>
+            <NavItem className="nav-item">{t('explore')}</NavItem>
+            <NavItem className="nav-item">{t('about')}</NavItem>
           </Nav>
-          <NavItem className="nav-item">Examples</NavItem>
+          <NavItem className="nav-item">{t('examples')}</NavItem>
           <div className="header-divider"></div>
           <UncontrolledDropdown nav inNavbar id="language-dropdown">
             <DropdownToggle nav caret>
-              EN
+	    {t('language')}
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>EN</DropdownItem>
-              <DropdownItem>PT</DropdownItem>
+		      <DropdownItem onClick={ () => {changeLanguage('pt');}}>PT</DropdownItem>
+		      <DropdownItem onClick={ () => {changeLanguage('en');}}>EN</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Collapse>
@@ -55,4 +62,4 @@ const MainNavbar = (props) => {
   );
 };
 
-export default MainNavbar;
+export default withTranslation() (MainNavbar);
