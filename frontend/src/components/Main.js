@@ -15,7 +15,7 @@ const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
 function Main() {
   const [form, setForm] = useState({
-    entity: 'André Ventura',
+    entities: ['André Ventura', 'Benfica']
   });
   const [sentimentScores, setSentimentScores] = useState({});
   const [magnitudeScores, setMagnitudeScores] = useState({});
@@ -30,9 +30,10 @@ function Main() {
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+  const handleChange = (e, i) => {
+    setForm({
+      entities: form.entities.map((el, elI) => (elI === i ? e.target.value : el))
+    });
   };
 
   const requestAnalysis = (entity, source) => {
@@ -52,7 +53,7 @@ function Main() {
   const handleSubmit = () => {
     // load first checked sources
     sources.forEach((source) => {
-      requestAnalysis(form.entity, source);
+      requestAnalysis(form.entities[0], source);
     });
 
     // then the rest
@@ -85,6 +86,25 @@ function Main() {
     });
   };
 
+  const entitiesInput = () => {
+    const entitiesElements = []
+    form.entities.forEach((value, i) => {
+      entitiesElements.push(
+        <Input
+          key={i}
+          type="text"
+          name="entity"
+          id="source-url"
+          className="entity-name"
+          placeholder="Write your entity in here"
+          value={value}
+          onChange={(e) => {handleChange(e, i)}}
+        />
+      );
+    })
+    return entitiesElements;
+  }
+
   const inputSection = () => {
     return (
       <div id="input" className="main-card">
@@ -94,15 +114,7 @@ function Main() {
         </div>
         <Form>
           <FormGroup>
-            <Input
-              type="text"
-              name="entity"
-              id="source-url"
-              className="entity-name"
-              placeholder="Write your entity in here"
-              value={form.entity}
-              onChange={handleChange}
-            />
+            {entitiesInput()}
           </FormGroup>
           <FormGroup id="years-range-group">
             <Label for="years-range">Years to Analyse</Label>
