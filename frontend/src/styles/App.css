@@ -28,7 +28,7 @@ html {
 }
 
 a {
-  text-decoration: none !important;
+  text-decoration: none;
   color: inherit;
 }
 
@@ -55,11 +55,17 @@ nav > * {
   margin: 0 1rem;
 }
 
-#main-content {
+#main-content,
+#about-content {
   max-width: 1280px;
   margin: 2rem auto;
   display: flex;
   align-items: flex-start;
+}
+
+#about-content {
+  max-width: 940px;
+  flex-direction: column;
 }
 
 #input {
@@ -69,6 +75,14 @@ nav > * {
 
 #output {
   width: 800px;
+}
+
+#about-content a {
+  text-decoration: underline;
+}
+
+#about-content a:hover {
+  color: var(--accent);
 }
 
 .main-card {
@@ -90,6 +104,24 @@ nav > * {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
+}
+
+.card-content {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #8e94a7;
+  margin-top: 1.5rem;
+}
+
+.card-content p:last-child {
+  margin-bottom: 0;
+}
+
+#about-content .main-card {
+  padding: 2.2rem;
+  width: 100%;
 }
 
 label {
@@ -200,7 +232,7 @@ strong {
 
 input.entity-name {
   border: none;
-  padding: 1.5rem .2rem;
+  padding: 1.5rem 0.2rem;
   margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--light-gray);
   color: var(--gray);
@@ -345,4 +377,46 @@ input.entity-name::placeholder {
   color: #8e94a7;
   padding-bottom: 1.75rem;
   border-bottom: 1px solid var(--light-gray);
+}
+
+#team-members {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.picture-container {
+  position: relative;
+  text-align: center;
+}
+
+.member-picture {
+  width: 200px;
+  border-radius: 50%;
+  box-shadow: 0px 2.07996px 7.48787px -2.07996px rgba(20, 20, 22, 0.4);
+  filter: brightness(100%);
+}
+
+.picture-container:hover .member-picture {
+  filter: brightness(70%);
+  transition: all 1s ease-in-out;
+}
+
+.member-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  color: var(--light-accent);
+}
+
+.picture-container:hover .member-name {
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+  font-size: 16px;
+  font-weight: 500;
 }

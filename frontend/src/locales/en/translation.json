@@ -20,5 +20,33 @@
   "magnitude_card_strong": "overall strength of emotion",
   "magnitude_card_part2": "within the given text, between 0.0 and +inf",
 
-  "got_it": "Got it"
+  "got_it": "Got it",
+
+  "context": "Context",
+  "goals": "Goals",
+  "howitsdone": "How it's done",
+  "team": "The team",
+
+  "context_part1": "Nowadays the users of the Internet have",
+  "context_strong1": " access to several resources",
+  "context_part2": " people could only dream of decades ago. With so many different sources, it also becomes troublesome to know which are credible and which are not.",
+  "context_part3": "News publications inherently express an",
+  "context_strong2": " underlying sentiment",
+  "context_part4": " regardless of how unbiased they are. Different news publications about the same topic can have different opinions which",
+  "context_strong3": " influences the readers.",
+  "context_part5": " Therefore, it is now more important than ever for the readers to know wheter a given source is biased in certain topics.",
+
+  "goals_part1": "Arquivo de Sentimentos provides a way to",
+  "goals_strong1": " analyze the opinions,",
+  "goals_part2": " using sentiment analysis, of news media (comparing them) over the years, helping users form a more",
+  "goals_strong2": " informed opinion",
+  "goals_part3": " on their own and",
+  "goals_strong3": " avoid misinformation",
+  "goals_part4": " as a result.",
+
+  "howitsdone_part1": "The platform integrates two powerful APIs with its own tools in order to provide the end-user a useful and robust product.",
+  "howitsdone_strong1": "Arquivo.pt API",
+  "howitsdone_part2": " for searching for topics and retrieving related web content from predefined news sources (e.g. 'Jornal de Notícias', 'Diário de Notícias', 'Público', etc), so we can then parse and analyse those news.",
+  "howitsdone_strong2": "Google Natural Language API",
+  "howitsdone_part3": " provides the tools necessary to perform sentiment analysis on the news retrieved by the Arquivo.pt API."
 }
