@@ -1,6 +1,8 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import Rafa from '../assets/rafa.jpg';
+import Ze from '../assets/ze.jpg';
+import Tiago from '../assets/tiago.jpg';
 
 const About = ({ t }) => {
   const aboutSection = () => {
@@ -88,11 +90,11 @@ const About = ({ t }) => {
               <span className="member-name">João Varela</span>
             </span>
             <span className="picture-container">
-              <img alt="José Silva" className="member-picture" src={Rafa} />
+              <img alt="José Silva" className="member-picture" src={Ze} />
               <span className="member-name">José Silva</span>
             </span>
             <span className="picture-container">
-              <img alt="Tiago Verdade" className="member-picture" src={Rafa} />
+              <img alt="Tiago Verdade" className="member-picture" src={Tiago} />
               <span className="member-name">Tiago Verdade</span>
             </span>
           </div>
