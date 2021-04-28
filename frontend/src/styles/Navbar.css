@@ -34,7 +34,8 @@
   color: var(--gray);
 }
 
-.nav-item:hover {
+.nav-item:hover,
+.nav-item.selected {
   color: var(--accent);
 }
 
