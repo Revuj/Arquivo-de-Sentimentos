@@ -10,6 +10,7 @@ const SentimentChart = ({
   firstYearIndex,
   lastYearIndex,
   sources,
+  entities
 }) => {
   const colors = [
     '#0346f2',
@@ -49,16 +50,20 @@ const SentimentChart = ({
 
   const datasets = [];
   let colorIndex = 0;
-  for (const source in sentimentScores) {
-    if (sources.has(source)) {
-      datasets.push({
-        label: source,
-        data: sentimentScores[source].slice(firstYearIndex, lastYearIndex),
-        fill: false,
-        backgroundColor: colors[colorIndex],
-        borderColor: colors[colorIndex++] + '55',
-        yAxisID: 'y-axis-1',
-      });
+  for (const entity in sentimentScores) {
+    if (entities.has(entity)){
+      for (const source in sentimentScores[entity]){
+        if (sources.has(source)){
+          datasets.push({
+            label: entity + "-" + source,
+            data: sentimentScores[entity][source].slice(firstYearIndex, lastYearIndex),
+            fill: false,
+            backgroundColor: colors[colorIndex],
+            borderColor: colors[colorIndex++] + '55',
+            yAxisID: 'y-axis-1',
+          });
+        }
+      }
     }
   }
 

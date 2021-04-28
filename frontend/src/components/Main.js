@@ -30,6 +30,8 @@ function Main({t}) {
   const [exportData, setExportData] = useState({});
   const [showToolTip, setShowToolTip] = useState(true);
 
+  const [queryEntities, setQueryEntities] = useState(new Set());
+
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
 
@@ -59,9 +61,26 @@ function Main({t}) {
 
     axios.get('/analyse', { params }).then((res) => {
       console.log(res.data);
-      setSentimentScores((prev) => ({ ...prev, ...res.data.sentiment }));
-      setMagnitudeScores((prev) => ({ ...prev, ...res.data.magnitude }));
-      setLoadingSources(
+
+      setSentimentScores(current => {
+        let st = {...current};
+        let st_en = {...st[entity]};
+        st_en[source] = res.data.sentiment[source];
+        st[entity] = st_en;
+        console.log(st);
+        return st;
+      });
+
+      setMagnitudeScores(current => {
+        let st = {...current};
+        let st_en = {...st[entity]};
+        st_en[source] = res.data.magnitude[source];
+        st[entity] = st_en;
+        console.log(st);
+        return st;
+      });
+
+      setLoadingSources( //TODO change loader to use more than one entity
         (prev) => new Set([...prev].filter((x) => x !== source))
       );
     });
@@ -69,9 +88,17 @@ function Main({t}) {
 
   const handleSubmit = () => {
     // load first checked sources
-    sources.forEach((source) => {
-      requestAnalysis(form.entities[0], source);
-    });
+    // sources.forEach((source) => {
+    //   requestAnalysis(form.entities[0], source);
+    // });
+
+    setQueryEntities(new Set([...form.entities]));
+
+    form.entities.forEach((entity) => {
+      sources.forEach((source) => {
+        requestAnalysis(entity, source);
+      });
+    })
 
     // then the rest
     // commented for test purposes
@@ -228,6 +255,7 @@ function Main({t}) {
           firstYearIndex={years[0] - 2000}
           lastYearIndex={years[1] - 2000 + 1}
           sources={sources}
+          entities={queryEntities}
         />
       </div>
     );
@@ -287,6 +315,7 @@ function Main({t}) {
           firstYearIndex={years[0] - 2000}
           lastYearIndex={years[1] - 2000 + 1}
           sources={sources}
+          entities={queryEntities}
         />
       </div>
     );
