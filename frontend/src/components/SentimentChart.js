@@ -10,7 +10,8 @@ const SentimentChart = ({
   firstYearIndex,
   lastYearIndex,
   sources,
-  entities
+  entities,
+  groupSources
 }) => {
   const colors = [
     '#0346f2',
@@ -52,16 +53,44 @@ const SentimentChart = ({
   let colorIndex = 0;
   for (const entity in sentimentScores) {
     if (entities.has(entity)){
-      for (const source in sentimentScores[entity]){
-        if (sources.has(source)){
+      if (groupSources){
+        const sentiments = [];
+        for (const source in sentimentScores[entity]){
+          if (sources.has(source)){
+            sentiments.push(sentimentScores[entity][source].slice(firstYearIndex, lastYearIndex));
+          }
+        }
+        if (sentiments.length > 0){
+          const finalSentimentos = [];
+          for (let i = 0; i < sentiments[0].length; i++){
+            var cur = 0;
+            for (let j = 0; j < sentiments.length; j++){
+              cur += sentiments[j][i];
+            }
+            cur = cur / sentiments.length;
+            finalSentimentos.push(cur);
+          }
           datasets.push({
-            label: entity + "-" + source,
-            data: sentimentScores[entity][source].slice(firstYearIndex, lastYearIndex),
+            label: entity,
+            data: finalSentimentos,
             fill: false,
             backgroundColor: colors[colorIndex],
             borderColor: colors[colorIndex++] + '55',
             yAxisID: 'y-axis-1',
           });
+        }
+      } else {
+        for (const source in sentimentScores[entity]){
+          if (sources.has(source)){
+            datasets.push({
+              label: source,
+              data: sentimentScores[entity][source].slice(firstYearIndex, lastYearIndex),
+              fill: false,
+              backgroundColor: colors[colorIndex],
+              borderColor: colors[colorIndex++] + '55',
+              yAxisID: 'y-axis-1',
+            });
+          }
         }
       }
     }

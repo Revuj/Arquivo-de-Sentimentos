@@ -67,7 +67,6 @@ function Main({t}) {
         let st_en = {...st[entity]};
         st_en[source] = res.data.sentiment[source];
         st[entity] = st_en;
-        console.log(st);
         return st;
       });
 
@@ -76,7 +75,6 @@ function Main({t}) {
         let st_en = {...st[entity]};
         st_en[source] = res.data.magnitude[source];
         st[entity] = st_en;
-        console.log(st);
         return st;
       });
 
@@ -256,6 +254,7 @@ function Main({t}) {
           lastYearIndex={years[1] - 2000 + 1}
           sources={sources}
           entities={queryEntities}
+          groupSources={queryEntities.size > 1}
         />
       </div>
     );
@@ -316,6 +315,7 @@ function Main({t}) {
           lastYearIndex={years[1] - 2000 + 1}
           sources={sources}
           entities={queryEntities}
+          groupSources={queryEntities.size > 1}
         />
       </div>
     );
