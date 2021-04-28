@@ -23,7 +23,6 @@ const ExportModal = ({ setShowModal, title, data, exportPdf, exportImage }) => {
   };
 
   const exportResults = () => {
-    console.log('Exporting');
     if (selectedFormats.has('csv')) exportCsv(data, title);
     if (selectedFormats.has('pdf')) exportPdf(title);
     if (selectedFormats.has('image')) exportImage(title);

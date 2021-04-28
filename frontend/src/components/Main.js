@@ -15,10 +15,9 @@ import { withTranslation } from 'react-i18next';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
-function Main({t}) {
-
+function Main({ t }) {
   const [form, setForm] = useState({
-    entities: ['André Ventura', 'Benfica']
+    entities: ['André Ventura', 'Benfica'],
   });
   const [sentimentScores, setSentimentScores] = useState({});
   const [magnitudeScores, setMagnitudeScores] = useState({});
@@ -37,48 +36,48 @@ function Main({t}) {
 
   const handleChange = (e, i) => {
     setForm({
-      entities: form.entities.map((el, elI) => (elI === i ? e.target.value : el))
+      entities: form.entities.map((el, elI) =>
+        elI === i ? e.target.value : el
+      ),
     });
   };
 
   const handleAdd = () => {
     setForm({
-      entities: form.entities.concat('')
-    })
-  }
+      entities: form.entities.concat(''),
+    });
+  };
 
   const handleRemove = (i) => {
-    if (form.entities.length <= 1)
-      return;
+    if (form.entities.length <= 1) return;
     setForm({
-      entities: form.entities.filter((el, elI) => elI !== i)
+      entities: form.entities.filter((el, elI) => elI !== i),
     });
-  }
+  };
 
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
     setLoadingSources((prev) => new Set(prev.add(source)));
 
     axios.get('/analyse', { params }).then((res) => {
-      console.log(res.data);
-
-      setSentimentScores(current => {
-        let st = {...current};
-        let st_en = {...st[entity]};
+      setSentimentScores((current) => {
+        let st = { ...current };
+        let st_en = { ...st[entity] };
         st_en[source] = res.data.sentiment[source];
         st[entity] = st_en;
         return st;
       });
 
-      setMagnitudeScores(current => {
-        let st = {...current};
-        let st_en = {...st[entity]};
+      setMagnitudeScores((current) => {
+        let st = { ...current };
+        let st_en = { ...st[entity] };
         st_en[source] = res.data.magnitude[source];
         st[entity] = st_en;
         return st;
       });
 
-      setLoadingSources( //TODO change loader to use more than one entity
+      setLoadingSources(
+        //TODO change loader to use more than one entity
         (prev) => new Set([...prev].filter((x) => x !== source))
       );
     });
@@ -96,7 +95,7 @@ function Main({t}) {
       sources.forEach((source) => {
         requestAnalysis(entity, source);
       });
-    })
+    });
 
     // then the rest
     // commented for test purposes
@@ -129,10 +128,10 @@ function Main({t}) {
   };
 
   const entitiesInput = () => {
-    const entitiesElements = []
+    const entitiesElements = [];
     form.entities.forEach((value, i) => {
       entitiesElements.push(
-        <div className='d-flex'>
+        <div className="d-flex">
           <Input
             key={i}
             type="text"
@@ -141,14 +140,23 @@ function Main({t}) {
             className="entity-name"
             placeholder="Write your entity in here"
             value={value}
-            onChange={(e) => {handleChange(e, i)}}
+            onChange={(e) => {
+              handleChange(e, i);
+            }}
           />
-          <HiMinusCircle size={30} id="minus-entity-button" className={form.entities.length == 1? "disabled":""} onClick={() => {handleRemove(i)}} />
+          <HiMinusCircle
+            size={30}
+            id="minus-entity-button"
+            className={form.entities.length == 1 ? 'disabled' : ''}
+            onClick={() => {
+              handleRemove(i);
+            }}
+          />
         </div>
       );
-    })
+    });
     return entitiesElements;
-  }
+  };
 
   const inputSection = () => {
     return (
@@ -158,9 +166,7 @@ function Main({t}) {
           <HiPlusCircle size={30} id="add-entity-button" onClick={handleAdd} />
         </div>
         <Form>
-          <FormGroup>
-            {entitiesInput()}
-          </FormGroup>
+          <FormGroup>{entitiesInput()}</FormGroup>
           <FormGroup id="years-range-group">
             <Label for="years-range">{t('year_analyse')}</Label>
             <YearsRange values={years} setValues={setYears} />
@@ -191,13 +197,12 @@ function Main({t}) {
               })}
           </ul>
           <Button id="search-button" onClick={handleSubmit}>
-	          {t('confirm')}
+            {t('confirm')}
           </Button>
         </Form>
       </div>
     );
   };
-
 
   const sentimentScore = () => {
     return (
@@ -217,10 +222,11 @@ function Main({t}) {
                   visibility: showToolTip === 'score' ? 'visible' : 'hidden',
                 }}
               >
-
                 <p>
-                  <strong>{t('sentiment_card_score')}</strong> {t('sentiment_card_part1')}{' '}
-                  <strong>{t('sentiment_card_strong')}</strong> {t('sentiment_card_part2')}.
+                  <strong>{t('sentiment_card_score')}</strong>{' '}
+                  {t('sentiment_card_part1')}{' '}
+                  <strong>{t('sentiment_card_strong')}</strong>{' '}
+                  {t('sentiment_card_part2')}.
                 </p>
                 <p
                   className="gotit"
@@ -228,7 +234,7 @@ function Main({t}) {
                     setShowToolTip(false);
                   }}
                 >
-		              {t('got_it')}
+                  {t('got_it')}
                 </p>
               </span>
             </span>
@@ -280,8 +286,10 @@ function Main({t}) {
                 }}
               >
                 <p>
-                  <strong>{t('magnitude_card_magnitude')}</strong> {t('magnitude_card_part1')}{' '}
-                  <strong>{t('magnitude_card_strong')}</strong> {t('magnitude_card_part2')}.
+                  <strong>{t('magnitude_card_magnitude')}</strong>{' '}
+                  {t('magnitude_card_part1')}{' '}
+                  <strong>{t('magnitude_card_strong')}</strong>{' '}
+                  {t('magnitude_card_part2')}.
                 </p>
                 <p
                   className="gotit"
@@ -289,7 +297,7 @@ function Main({t}) {
                     setShowToolTip(false);
                   }}
                 >
-	    	          {t('got_it')}
+                  {t('got_it')}
                 </p>
               </span>
             </span>
@@ -351,4 +359,4 @@ function Main({t}) {
   );
 }
 
-export default withTranslation() (Main);
+export default withTranslation()(Main);

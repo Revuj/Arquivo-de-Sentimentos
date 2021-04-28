@@ -37,16 +37,19 @@ const years = [
 ];
 
 export const exportCsv = (data, filename) => {
-  let jsonData = [];
-  for (let source in data) {
-    let dataEntry = { source };
-    let yearCounter = 0;
-    data[source].forEach((value) => {
-      dataEntry[years[yearCounter++]] = value;
-    });
-    jsonData.push(dataEntry);
+  console.log(data);
+  for (let entity in data) {
+    let jsonData = [];
+    for (let source in data[entity]) {
+      let dataEntry = { source };
+      let yearCounter = 0;
+      data[entity][source].forEach((value) => {
+        dataEntry[years[yearCounter++]] = value;
+      });
+      jsonData.push(dataEntry);
+    }
+    options.filename = `filename_${entity.replace(' ', '_')}`;
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(jsonData.length > 0 ? jsonData : [{}]);
   }
-  options.filename = filename;
-  const csvExporter = new ExportToCsv(options);
-  csvExporter.generateCsv(jsonData.length > 0 ? jsonData : [{}]);
 };
