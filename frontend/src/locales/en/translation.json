@@ -11,14 +11,14 @@
   "confirm": "Confirm",
 
   "sentiment_card_score": "score",
-  "sentiment_card_part1": "of the sentiment ranges between -1.0 (negative) and 1.0 (positive) and corresponds to the",
-  "sentiment_card_strong": "overall emotional leaning",
-  "sentiment_card_part2": "of the next",
+  "sentiment_card_part1": " of the sentiment ranges between -1.0 (negative) and 1.0 (positive) and corresponds to the",
+  "sentiment_card_strong": " overall emotional leaning",
+  "sentiment_card_part2": " of the text",
 
   "magnitude_card_magnitude": "magnitude",
-  "magnitude_card_part1": "indicates the",
-  "magnitude_card_strong": "overall strength of emotion",
-  "magnitude_card_part2": "within the given text, between 0.0 and +inf",
+  "magnitude_card_part1": " indicates the",
+  "magnitude_card_strong": " overall strength of emotion",
+  "magnitude_card_part2": " within the given text, between 0.0 and +inf",
 
   "got_it": "Got it",
 

@@ -11,14 +11,14 @@
   "confirm": "Confirmar",
 
   "sentiment_card_score": "valor",
-  "sentiment_card_part1": "do sentimento varia entre -1.0(negativo) e 1.0(positivo) e corresponde para",
-  "sentiment_card_strong": "onde tende a emoção",
-  "sentiment_card_part2": "do texto",
+  "sentiment_card_part1": " do sentimento varia entre -1.0(negativo) e 1.0(positivo) e corresponde à",
+  "sentiment_card_strong": " tendência emocional",
+  "sentiment_card_part2": " do texto",
 
   "magnitude_card_magnitude": "magnitude",
-  "magnitude_card_part1": "indica a",
-  "magnitude_card_strong": "força da emoção",
-  "magnitude_card_part2": "valor encontra-se compreendido entre 0.0 e +inf",
+  "magnitude_card_part1": " indica a",
+  "magnitude_card_strong": " força da emoção",
+  "magnitude_card_part2": " do texto, cujo valor se encontra compreendido entre 0.0 e +inf",
 
   "got_it": "Entendi",
 
