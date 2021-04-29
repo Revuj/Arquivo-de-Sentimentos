@@ -17,7 +17,7 @@ import '../styles/Navbar.css';
 import Logo from '../assets/logo.svg';
 import { withTranslation } from 'react-i18next';
 
-const MainNavbar = ({ t, i18n, setTab, tab }) => {
+const MainNavbar = ({ t, i18n, setTab, tab, setShowExamplesModal }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -57,7 +57,14 @@ const MainNavbar = ({ t, i18n, setTab, tab }) => {
               {t('about')}
             </NavItem>
           </Nav>
-          <NavItem className="nav-item">{t('examples')}</NavItem>
+          <NavItem
+            onClick={() => {
+              setShowExamplesModal(true);
+            }}
+            className="nav-item"
+          >
+            {t('examples')}
+          </NavItem>
           <div className="header-divider"></div>
           <UncontrolledDropdown nav inNavbar id="language-dropdown">
             <DropdownToggle nav caret>

@@ -10,14 +10,13 @@ import axios from 'axios';
 import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
-
 import { withTranslation } from 'react-i18next';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
-function Main({ t }) {
+function Main({ t, examples, setExamples }) {
   const [form, setForm] = useState({
-    entities: ['André Ventura', 'Benfica'],
+    entities: ['André Ventura'],
   });
   const [sentimentScores, setSentimentScores] = useState({});
   const [magnitudeScores, setMagnitudeScores] = useState({});
@@ -33,6 +32,21 @@ function Main({ t }) {
 
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
+
+  useEffect(() => {
+    console.log('oi');
+    if (examples.length > 0) {
+      setForm({ ...form, entities: examples });
+    }
+  }, [examples]);
+
+  useEffect(() => {
+    console.log(examples);
+    if (examples.length > 0) {
+      handleSubmit();
+      setExamples([]);
+    }
+  }, [form]);
 
   const handleChange = (e, i) => {
     setForm({
@@ -50,7 +64,9 @@ function Main({ t }) {
 
   const handleRemove = (i) => {
     if (form.entities.length <= 1) return;
-    setQueryEntities(new Set([...form.entities.filter((el, elI) => elI !== i)]));
+    setQueryEntities(
+      new Set([...form.entities.filter((el, elI) => elI !== i)])
+    );
     setForm({
       entities: form.entities.filter((el, elI) => elI !== i),
     });
@@ -90,6 +106,7 @@ function Main({ t }) {
     //   requestAnalysis(form.entities[0], source);
     // });
 
+    console.log('submiting');
     setQueryEntities(new Set([...form.entities]));
 
     form.entities.forEach((entity) => {

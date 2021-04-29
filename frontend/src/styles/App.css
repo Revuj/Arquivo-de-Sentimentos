@@ -256,6 +256,25 @@ input.entity-name::placeholder {
   transition: 0.3s;
 }
 
+.example-button {
+  width: 100%;
+  background-color: var(--light-accent);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--accent);
+  border-radius: 10px;
+  border: none;
+  height: 52px;
+  transition: 0.3s;
+  margin-top: 1rem;
+}
+
+.example-button:hover {
+  background-color: #0346f2;
+  color: var(--light-accent);
+}
+
 #search-button:hover,
 #add-entity-button:hover,
 #minus-entity-button,
