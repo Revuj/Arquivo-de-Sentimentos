@@ -50,6 +50,7 @@ function Main({ t }) {
 
   const handleRemove = (i) => {
     if (form.entities.length <= 1) return;
+    setQueryEntities(new Set([...form.entities.filter((el, elI) => elI !== i)]));
     setForm({
       entities: form.entities.filter((el, elI) => elI !== i),
     });
