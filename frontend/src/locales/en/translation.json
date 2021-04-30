@@ -48,5 +48,8 @@
   "howitsdone_strong1": "Arquivo.pt API",
   "howitsdone_part2": " for searching for topics and retrieving related web content from predefined news sources (e.g. 'Jornal de Notícias', 'Diário de Notícias', 'Público', etc), so we can then parse and analyse those news.",
   "howitsdone_strong2": "Google Natural Language API",
-  "howitsdone_part3": " provides the tools necessary to perform sentiment analysis on the news retrieved by the Arquivo.pt API."
+  "howitsdone_part3": " provides the tools necessary to perform sentiment analysis on the news retrieved by the Arquivo.pt API.",
+
+  "export_title": "Export as",
+  "export_description": "Choose a format to export the results"
 }
