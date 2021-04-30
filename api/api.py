@@ -19,19 +19,10 @@ def analyse():
     entity = request.args.get('entity')
     source = request.args.get('source')
 
-    
-
-    # Real Sentiment Analysis (be aware that it really takes a while - approx 3min)
     analysis_by_year, magnitude_by_year = analysis.analysis(entity, source)
-    # return { 'Público' : [5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 4, 5]}
     return { 'sentiment': { source : analysis_by_year }, 'magnitude': { source : magnitude_by_year } }
 
-    # Mock Responses (use this to test UI changes pls)
-    # time.sleep(2)
-    # mock_analysis = { 'Correio da Manhã' : [5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 5, 3 , 4, 1, 0, 1, 2, 3, 4, 5, 4, 5] , 
-    #             'Jornal de Notícias' : [3, 3 , 0, 0, 4, 3, 5, 1, 4, 3, 3, 3 , 3, 5, 3, 2, 1, 1, 0, 3, 4, 5] ,
-    #             'Público' : [1, 5, 5, 0, 5, 5, 5, 3, 4, 2, 2, 1 , 4, 1, 2, 3, 2, 1, 4, 5, 1, 1] }
-    # return { source : mock_analysis[source]}
+
 
 if __name__ == '__main__':
     app.run(threaded=True)

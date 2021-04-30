@@ -34,14 +34,12 @@ function Main({ t, examples, setExamples }) {
   const magnitudeCardRef = createRef();
 
   useEffect(() => {
-    console.log('oi');
     if (examples.length > 0) {
       setForm({ ...form, entities: examples });
     }
   }, [examples]);
 
   useEffect(() => {
-    console.log(examples);
     if (examples.length > 0) {
       handleSubmit();
       setExamples([]);
@@ -100,13 +98,19 @@ function Main({ t, examples, setExamples }) {
     });
   };
 
+  const clearOutputs = () => {
+    setSentimentScores({});
+    setMagnitudeScores({});
+    setLoadingSources(new Set());
+  };
+
   const handleSubmit = () => {
     // load first checked sources
     // sources.forEach((source) => {
     //   requestAnalysis(form.entities[0], source);
     // });
 
-    console.log('submiting');
+    clearOutputs();
     setQueryEntities(new Set([...form.entities]));
 
     form.entities.forEach((entity) => {
