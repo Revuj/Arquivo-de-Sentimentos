@@ -124,6 +124,10 @@ def analysis(entity, source):
     urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
     content_by_year = newsfetcher.get_articles_content(urls_by_year)
 
+    total_urls = []
+    for year, urls in urls_by_year.items():
+      total_urls.extend(urls)
+
     score_by_year = []
     magnitude_by_year = []
     for year, content in content_by_year.items():
@@ -136,6 +140,7 @@ def analysis(entity, source):
       'website': source,
       'sentiment': score_by_year , 
       'magnitude': magnitude_by_year , 
+      'news': total_urls
     }
     db.ArquivoSentimentos.insert_one(element)
 
