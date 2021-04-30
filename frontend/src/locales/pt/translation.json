@@ -57,5 +57,8 @@
   "examples_description": "Escolhe um exemplo para visualizar",
   "presidents": "Presidentes da República",
   "ministers": "Primeiros Ministros",
-  "football_clubs": "Clubes de Futebol"
+  "football_clubs": "Clubes de Futebol",
+
+  "hide": "Esconder",
+  "news": "Notícias"
 }

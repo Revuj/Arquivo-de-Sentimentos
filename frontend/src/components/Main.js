@@ -11,6 +11,7 @@ import YearsRange from './YearsRange';
 import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 import { withTranslation } from 'react-i18next';
+import News from './News';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
@@ -373,10 +374,13 @@ function Main({ t, examples, setExamples }) {
   };
 
   return (
-    <div id="main-content">
-      {inputSection()}
-      {outputSection()}
-      {showExportModal && exportModal()}
+    <div id="main-content-container">
+      <div id="main-content">
+        {inputSection()}
+        {outputSection()}
+        {showExportModal && exportModal()}
+      </div>
+      <News />
     </div>
   );
 }
