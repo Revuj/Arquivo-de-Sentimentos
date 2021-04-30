@@ -1,6 +1,7 @@
 import React from 'react';
 import { HiX } from 'react-icons/hi';
 import { Button } from 'reactstrap';
+import { withTranslation } from 'react-i18next';
 
 const exampleEntities = new Map([
   ['presidents', ['Marcelo Rebelo de Sousa', 'Cavaco Silva', 'Jorge Sampaio']],
@@ -8,7 +9,7 @@ const exampleEntities = new Map([
   ['football clubs', ['Benfica', 'Sporting', 'Futebol Clube do Porto']],
 ]);
 
-const ExamplesModal = ({ setShowModal, setExamples, setTab }) => {
+const ExamplesModal = ({ t, setShowModal, setExamples, setTab }) => {
   const handleClick = (e) => {
     if (e.target.classList.contains('backdrop')) setShowModal(false);
   };
@@ -29,35 +30,35 @@ const ExamplesModal = ({ setShowModal, setExamples, setTab }) => {
     >
       <div className="modal-form main-card">
         <div className="card-header">
-          <h5 className="modal-title">Examples</h5>
+          <h5 className="modal-title">{t('examples_title')}</h5>
           <HiX
             size={25}
             className="close-modal-button"
             onClick={() => setShowModal(false)}
           />
         </div>
-        <p className="modal-caption">Pick an example to visualise</p>
+        <p className="modal-caption">{t('examples_description')}</p>
         <ul id="selected-sources">
           <Button
             type="button"
             className="example-button"
             onClick={() => pickExamples('presidents')}
           >
-            Presidentes da República
+            {t('presidents')}
           </Button>
           <Button
             type="button"
             className="example-button"
             onClick={() => pickExamples('prime ministers')}
           >
-            Primeiros Ministros
+            {t('ministers')}
           </Button>
           <Button
             type="button"
             className="example-button"
             onClick={() => pickExamples('football clubs')}
           >
-            Clubes de Futebol
+            {t('football_clubs')}
           </Button>
         </ul>
       </div>
@@ -65,4 +66,4 @@ const ExamplesModal = ({ setShowModal, setExamples, setTab }) => {
   );
 };
 
-export default ExamplesModal;
+export default withTranslation()(ExamplesModal);

@@ -51,5 +51,11 @@
   "howitsdone_part3": " provides the tools necessary to perform sentiment analysis on the news retrieved by the Arquivo.pt API.",
 
   "export_title": "Export as",
-  "export_description": "Choose a format to export the results"
+  "export_description": "Choose a format to export the results",
+
+  "examples_title": "Examples",
+  "examples_description": "Pick an example to visualise",
+  "presidents": "Presidents of the Republic",
+  "ministers": "Prime Ministers",
+  "football_clubs": "Football Clubs"
 }

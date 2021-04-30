@@ -51,5 +51,11 @@
   "howitsdone_part3": " fornece as ferramentas necessárias para realizar a análise the sentimentos sobre as notícias obtidas através da Arquivo.pt API.",
 
   "export_title": "Exportar como",
-  "export_description": "Escolhe um formato para exportar os resultados"
+  "export_description": "Escolhe um formato para exportar os resultados",
+
+  "examples_title": "Exemplos",
+  "examples_description": "Escolhe um exemplo para visualizar",
+  "presidents": "Presidentes da República",
+  "ministers": "Primeiros Ministros",
+  "football_clubs": "Clubes de Futebol"
 }
