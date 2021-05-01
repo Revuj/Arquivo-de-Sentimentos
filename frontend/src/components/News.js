@@ -13,6 +13,7 @@ import '../styles/News.css';
 const News = ({ t, previews }) => {
   const [hidden, setHidden] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedEntity, setSelectedEntity] = useState(null);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
@@ -36,10 +37,16 @@ const News = ({ t, previews }) => {
             </ul>
           </div>
           <Dropdown id="news-dropdown" isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle caret>{t('entity')}</DropdownToggle>
+            <DropdownToggle caret>
+              {selectedEntity || t('entity')}
+            </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>pénis</DropdownItem>
-              <DropdownItem>vagina</DropdownItem>
+              <DropdownItem onClick={() => setSelectedEntity('pénis')}>
+                pénis
+              </DropdownItem>
+              <DropdownItem onClick={() => setSelectedEntity('vagina')}>
+                vagina
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
