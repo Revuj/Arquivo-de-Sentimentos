@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'reactstrap';
+import {
+  Button,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 import { ImNewspaper } from 'react-icons/im';
 import '../styles/News.css';
 
 const News = ({ t, previews }) => {
   const [hidden, setHidden] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   return (
     previews && (
@@ -26,6 +35,13 @@ const News = ({ t, previews }) => {
                 })}
             </ul>
           </div>
+          <Dropdown id="news-dropdown" isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle caret>{t('entity')}</DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>pénis</DropdownItem>
+              <DropdownItem>vagina</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
         <Button
           type="button"
