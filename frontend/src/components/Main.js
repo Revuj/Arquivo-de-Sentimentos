@@ -24,7 +24,11 @@ function Main({ t, examples, setExamples }) {
   const [previews, setPreviews] = useState(null);
   const [years, setYears] = useState([2010, 2021]);
   const [sources, setSources] = useState(new Set(newsSources));
-  const [loadingSources, setLoadingSources] = useState(new Set());
+  const [loadingSources, setLoadingSources] = useState({
+    'Correio da Manhã': 0,
+    'Jornal de Notícias': 0,
+    Público: 0,
+  });
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportTitle, setExportTitle] = useState('');
   const [exportData, setExportData] = useState({});
@@ -72,33 +76,27 @@ function Main({ t, examples, setExamples }) {
     });
   };
 
-
-	const requestNews = (entity) => {
-
-		console.log(entity);
-		axios.get('/previews', { params: { entity }}).then( (res) => {
-
-			const data = res.data;
-			setPreviews({previews: data.previews});
-		});
-
-
-	}
+  const requestNews = (entity) => {
+    axios.get('/previews', { params: { entity } }).then((res) => {
+      const data = res.data;
+      setPreviews({ previews: data.previews });
+    });
+  };
 
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
-    setLoadingSources((prev) => new Set(prev.add(source)));
+    setLoadingSources((prev) => {
+      prev[source] += 1;
+      return prev;
+    });
 
     axios.get('/analyse', { params }).then((res) => {
-
-
-
       setSentimentScores((current) => {
         let st = { ...current };
         let st_en = { ...st[entity] };
         st_en[source] = res.data.sentiment[source];
         st[entity] = st_en;
-	
+
         return st;
       });
 
@@ -110,28 +108,20 @@ function Main({ t, examples, setExamples }) {
         return st;
       });
 
-      setLoadingSources(
-        //TODO change loader to use more than one entity
-        (prev) => new Set([...prev].filter((x) => x !== source))
-      );
-
-			requestNews(entity);
-
+      setLoadingSources((prev) => {
+        prev[source] -= 1;
+        return prev;
+      });
+      requestNews(entity);
     });
   };
 
   const clearOutputs = () => {
     setSentimentScores({});
     setMagnitudeScores({});
-    setLoadingSources(new Set());
   };
 
   const handleSubmit = () => {
-    // load first checked sources
-    // sources.forEach((source) => {
-    //   requestAnalysis(form.entities[0], source);
-    // });
-
     clearOutputs();
     setQueryEntities(new Set([...form.entities]));
 
@@ -140,14 +130,6 @@ function Main({ t, examples, setExamples }) {
         requestAnalysis(entity, source);
       });
     });
-
-    // then the rest
-    // commented for test purposes
-    // newsSources.forEach((source) => {
-    //   if (!sources.has(source)) {
-    //     requestAnalysis(form.entity, source);
-    //   }
-    // });
   };
 
   const toggleSource = (source) => {
@@ -233,7 +215,7 @@ function Main({ t, examples, setExamples }) {
                       />
                       <span>{source}</span>
                     </label>
-                    {loadingSources.has(source) && (
+                    {loadingSources[source] > 0 && (
                       <div className="loader"></div>
                     )}
                   </li>
@@ -401,7 +383,7 @@ function Main({ t, examples, setExamples }) {
         {outputSection()}
         {showExportModal && exportModal()}
       </div>
-      <News previews={previews}/>
+      <News previews={previews} />
     </div>
   );
 }
