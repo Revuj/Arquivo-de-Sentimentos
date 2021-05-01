@@ -9,49 +9,31 @@ const News = ({ t, previews }) => {
 
   return (
     <>
-
       <div id="news-column-container" className={hidden ? 'hidden' : ''}>
         <div id="news-column">
           <ul id="news-list">
-	    { previews && [...previews.previews].map((preview) => {
-
-	    return (<li className="news-item">
-              <span className="news-source">{preview.site_name}</span>
-              <h5 className="news-title">{preview.title}</h5>
-              <p className="news-description">
-			    {preview.description}
-              </p>
-              <img
-                className="news-image"
-                src={preview.image}
-              />
-            </li>)
-		}
-	    )
-	    }
+            {previews &&
+              [...previews.previews].map((preview) => {
+                return (
+                  <li className="news-item">
+                    <span className="news-source">{preview.site_name}</span>
+                    <h5 className="news-title">{preview.title}</h5>
+                    <p className="news-description">{preview.description}</p>
+                    <img className="news-image" src={preview.image} />
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </div>
-      {!hidden && (
-        <Button
-          type="button"
-          className="example-button"
-          id="hide-news-button"
-          onClick={() => setHidden(!hidden)}
-        >
-          {t('hide')}
-        </Button>
-      )}
-      {hidden && (
-        <Button
-          type="button"
-          className="example-button"
-          id="show-news-button"
-          onClick={() => setHidden(!hidden)}
-        >
-          <ImNewspaper size={30} />
-        </Button>
-      )}
+      <Button
+        type="button"
+        className={!hidden ? 'open example-button' : 'example-button'}
+        id="show-news-button"
+        onClick={() => setHidden(!hidden)}
+      >
+        <ImNewspaper size={30} />
+      </Button>
     </>
   );
 };

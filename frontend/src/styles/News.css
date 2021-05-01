@@ -78,6 +78,11 @@
   box-shadow: -5px 5px 15px rgba(138, 138, 138, 0.25);
   background-color: white;
   color: var(--gray);
+  transition: all 1s ease 0s;
+}
+
+#show-news-button.open {
+  right: 400px;
 }
 
 #show-news-button:hover,
