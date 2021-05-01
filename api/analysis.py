@@ -4,8 +4,16 @@ from google.cloud import language_v1
 # API Basics: https://cloud.google.com/natural-language/docs/basics
 from google.cloud import language_v1
 import newsfetcher
+from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
+from create_celery import make_celery
+
+celery = make_celery(None)
+
+mongo_address = 'mongodb://ArquivoSentimentos:ArquivoSentimentos@cluster0-shard-00-00.xjlhf.mongodb.net:27017,cluster0-shard-00-01.xjlhf.mongodb.net:27017,cluster0-shard-00-02.xjlhf.mongodb.net:27017/ArquivoSentimentos?ssl=true&replicaSet=atlas-13w6jb-shard-0&authSource=admin&retryWrites=true&w=majority'
+mongo_client = MongoClient(mongo_address)
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
@@ -109,16 +117,57 @@ def analyze_sentiment(text_content):
     # print(u"Language of the text: {}".format(response.language))
     return response.document_sentiment.score, response.document_sentiment.magnitude
 
+
+def fetch_link_preview(link):
+  req = requests.get(link)
+  if req.status_code != 200:
+    return
+
+  soup = BeautifulSoup(req.text, features='html.parser')
+
+  link_title = soup.select_one('meta[property="og:title"]')
+  link_description = soup.select_one('meta[property="og:description"]')
+  link_site_name = soup.select_one('meta[property="og:site_name"]')
+  link_image = soup.select_one('meta[property="og:image"]')
+
+
+  if link_title is None or link_description is None or link_site_name is None or link_image is None:
+    return
+
+  try:
+    return {'title':link_title['content'], 'description':link_description['content'], 'site_name':link_site_name['content'], 'image':link_image['content']}
+  except KeyError:
+    return
+
+
+@celery.task()
+def create_link_previews(_id):
+  
+  previews = []
+  with MongoClient(mongo_address) as client:
+    oid = ObjectId(_id)
+    db = client.ArquivoSentimentos
+    doc = db.ArquivoSentimentos.find_one({'_id': oid})
+    if not doc:
+      return
+
+    previews = filter(lambda x: x is not None, map(fetch_link_preview, doc['news']))
+    previews = list(previews)
+    db.ArquivoSentimentos.update({'_id': oid}, {'$set': {'link_previews': previews}})
+  return previews
+
 def analysis(entity, source):
 
-  client = MongoClient('mongodb://ArquivoSentimentos:ArquivoSentimentos@cluster0-shard-00-00.xjlhf.mongodb.net:27017,cluster0-shard-00-01.xjlhf.mongodb.net:27017,cluster0-shard-00-02.xjlhf.mongodb.net:27017/ArquivoSentimentos?ssl=true&replicaSet=atlas-13w6jb-shard-0&authSource=admin&retryWrites=true&w=majority')
-  db = client.ArquivoSentimentos
+  db = mongo_client.ArquivoSentimentos
 
   query = {"name": entity, 'website': source }
 
   doc = db.ArquivoSentimentos.find_one(query)
 
   if doc:
+
+    if 'link_previews' not in doc:
+      create_link_previews.delay(str(doc['_id']))
     return [doc['sentiment'], doc['magnitude']]
   else:
     urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
@@ -142,7 +191,9 @@ def analysis(entity, source):
       'magnitude': magnitude_by_year , 
       'news': total_urls
     }
-    db.ArquivoSentimentos.insert_one(element)
+    inserted = db.ArquivoSentimentos.insert_one(element)
+
+    create_link_previews.delay(str(inserted.inserted_id))
 
     return [score_by_year, magnitude_by_year]
 

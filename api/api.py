@@ -1,12 +1,17 @@
 import time
 from flask import Flask, request
-import analysis
-
+from create_celery import make_celery
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
 app = Flask(__name__)
+app.config.update(CELERY_BROKER_URL=os.environ['REDIS_URL'])
+celery = make_celery(app)
+import analysis
+from tasks import do_in_background
+
 
 @app.route('/time')
 def get_current_time():
