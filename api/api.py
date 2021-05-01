@@ -12,6 +12,7 @@ celery = make_celery(app)
 import analysis
 from tasks import do_in_background
 
+from mongo import mongo_client
 
 @app.route('/time')
 def get_current_time():
@@ -27,6 +28,22 @@ def analyse():
     analysis_by_year, magnitude_by_year = analysis.analysis(entity, source)
     return { 'sentiment': { source : analysis_by_year }, 'magnitude': { source : magnitude_by_year } }
 
+
+
+@app.route('/previews')
+def previews():
+
+    entity = request.args.get('entity')
+    db = mongo_client.ArquivoSentimentos
+    res = db.ArquivoSentimentos.find({'name':entity})
+
+    previews = []
+    for document in res:
+
+        if 'link_previews' not in document:
+            continue
+        previews.extend(document['link_previews'])
+    return {'previews': previews}
 
 
 if __name__ == '__main__':

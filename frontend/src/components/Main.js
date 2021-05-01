@@ -21,6 +21,7 @@ function Main({ t, examples, setExamples }) {
   });
   const [sentimentScores, setSentimentScores] = useState({});
   const [magnitudeScores, setMagnitudeScores] = useState({});
+  const [previews, setPreviews] = useState(null);
   const [years, setYears] = useState([2010, 2021]);
   const [sources, setSources] = useState(new Set(newsSources));
   const [loadingSources, setLoadingSources] = useState(new Set());
@@ -71,16 +72,33 @@ function Main({ t, examples, setExamples }) {
     });
   };
 
+
+	const requestNews = (entity) => {
+
+		console.log(entity);
+		axios.get('/previews', { params: { entity }}).then( (res) => {
+
+			const data = res.data;
+			setPreviews({previews: data.previews});
+		});
+
+
+	}
+
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
     setLoadingSources((prev) => new Set(prev.add(source)));
 
     axios.get('/analyse', { params }).then((res) => {
+
+
+
       setSentimentScores((current) => {
         let st = { ...current };
         let st_en = { ...st[entity] };
         st_en[source] = res.data.sentiment[source];
         st[entity] = st_en;
+	
         return st;
       });
 
@@ -96,6 +114,9 @@ function Main({ t, examples, setExamples }) {
         //TODO change loader to use more than one entity
         (prev) => new Set([...prev].filter((x) => x !== source))
       );
+
+			requestNews(entity);
+
     });
   };
 
@@ -380,7 +401,7 @@ function Main({ t, examples, setExamples }) {
         {outputSection()}
         {showExportModal && exportModal()}
       </div>
-      <News />
+      <News previews={previews}/>
     </div>
   );
 }

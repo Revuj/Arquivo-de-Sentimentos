@@ -4,62 +4,31 @@ import { withTranslation } from 'react-i18next';
 import { ImNewspaper } from 'react-icons/im';
 import '../styles/News.css';
 
-const News = ({ t }) => {
+const News = ({ t, previews }) => {
   const [hidden, setHidden] = useState(true);
 
   return (
     <>
+
       <div id="news-column-container" className={hidden ? 'hidden' : ''}>
         <div id="news-column">
           <ul id="news-list">
-            <li className="news-item">
-              <span className="news-source">Publico</span>
-              <h5 className="news-title">Nice News Tile</h5>
+	    { previews && [...previews.previews].map((preview) => {
+
+	    return (<li className="news-item">
+              <span className="news-source">{preview.site_name}</span>
+              <h5 className="news-title">{preview.title}</h5>
               <p className="news-description">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum
-                obcaecati quasi illum harum aliquam.
+			    {preview.description}
               </p>
               <img
                 className="news-image"
-                src="https://imagens.publico.pt/imagens.aspx/1578726?tp=UH&db=IMAGENS&type=JPG&share=1&o=BarraFacebook_Publico.png"
+                src={preview.image}
               />
-            </li>
-            <li className="news-item">
-              <span className="news-source">Publico</span>
-              <h5 className="news-title">Nice News Tile</h5>
-              <p className="news-description">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum
-                obcaecati quasi illum harum aliquam.
-              </p>
-              <img
-                className="news-image"
-                src="https://imagens.publico.pt/imagens.aspx/1578726?tp=UH&db=IMAGENS&type=JPG&share=1&o=BarraFacebook_Publico.png"
-              />
-            </li>
-            <li className="news-item">
-              <span className="news-source">Publico</span>
-              <h5 className="news-title">Nice News Tile</h5>
-              <p className="news-description">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum
-                obcaecati quasi illum harum aliquam.
-              </p>
-              <img
-                className="news-image"
-                src="https://imagens.publico.pt/imagens.aspx/1578726?tp=UH&db=IMAGENS&type=JPG&share=1&o=BarraFacebook_Publico.png"
-              />
-            </li>
-            <li className="news-item">
-              <span className="news-source">Publico</span>
-              <h5 className="news-title">Nice News Tile</h5>
-              <p className="news-description">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum
-                obcaecati quasi illum harum aliquam.
-              </p>
-              <img
-                className="news-image"
-                src="https://imagens.publico.pt/imagens.aspx/1578726?tp=UH&db=IMAGENS&type=JPG&share=1&o=BarraFacebook_Publico.png"
-              />
-            </li>
+            </li>)
+		}
+	    )
+	    }
           </ul>
         </div>
       </div>

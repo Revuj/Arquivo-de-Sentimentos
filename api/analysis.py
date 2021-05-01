@@ -6,14 +6,12 @@ from google.cloud import language_v1
 import newsfetcher
 from bs4 import BeautifulSoup
 
-from pymongo import MongoClient
+from mongo import mongo_client, mongo_address
 from bson.objectid import ObjectId
 from create_celery import make_celery
 
 celery = make_celery(None)
 
-mongo_address = 'mongodb://ArquivoSentimentos:ArquivoSentimentos@cluster0-shard-00-00.xjlhf.mongodb.net:27017,cluster0-shard-00-01.xjlhf.mongodb.net:27017,cluster0-shard-00-02.xjlhf.mongodb.net:27017/ArquivoSentimentos?ssl=true&replicaSet=atlas-13w6jb-shard-0&authSource=admin&retryWrites=true&w=majority'
-mongo_client = MongoClient(mongo_address)
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
