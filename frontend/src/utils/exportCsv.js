@@ -47,7 +47,7 @@ export const exportCsv = (data, filename) => {
       });
       jsonData.push(dataEntry);
     }
-    options.filename = `filename_${entity.replace(' ', '_')}`;
+    options.filename = `${filename}_${entity.replace(' ', '_')}`;
     const csvExporter = new ExportToCsv(options);
     csvExporter.generateCsv(jsonData.length > 0 ? jsonData : [{}]);
   }
