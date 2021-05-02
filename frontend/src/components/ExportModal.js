@@ -4,8 +4,6 @@ import { HiX } from 'react-icons/hi';
 import { exportCsv } from '../utils/exportCsv';
 import { withTranslation } from 'react-i18next';
 
-const formats = ['csv', 'pdf', 'image'];
-
 const ExportModal = ({
   t,
   setShowModal,
@@ -14,6 +12,8 @@ const ExportModal = ({
   exportPdf,
   exportImage,
 }) => {
+  const formats = ['csv', 'pdf', t('image')];
+
   const [selectedFormats, setSelectedFormats] = useState(new Set());
 
   const handleClick = (e) => {

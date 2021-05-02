@@ -28,7 +28,7 @@ function Main({ t, examples, setExamples }) {
   const [loadingSources, setLoadingSources] = useState({
     'Correio da Manhã': 0,
     'Jornal de Notícias': 0,
-    Público: 0,
+    'Público': 0,
   });
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportTitle, setExportTitle] = useState('');
@@ -347,7 +347,7 @@ function Main({ t, examples, setExamples }) {
               }}
             >
               <BiDownload size={16} className="export-icon" />
-              Export
+                {t('export')}
             </button>
           )}
         </div>
