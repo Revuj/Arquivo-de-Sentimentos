@@ -89,15 +89,36 @@ const About = ({ t }) => {
           <div id="team-members">
             <span className="picture-container">
               <img alt="João Varela" className="member-picture" src={Rafa} />
-              <span className="member-name">João Varela</span>
+              <a
+                href="https://www.joaovarela.me/"
+                target="_blank"
+                rel="noreferrer"
+                className="member-name"
+              >
+                João Varela
+              </a>
             </span>
             <span className="picture-container">
               <img alt="José Silva" className="member-picture" src={Ze} />
-              <span className="member-name">José Silva</span>
+              <a
+                href="https://github.com/krystalgamer"
+                className="member-name"
+                target="_blank"
+                rel="noreferrer"
+              >
+                José Silva
+              </a>
             </span>
             <span className="picture-container">
               <img alt="Tiago Verdade" className="member-picture" src={Tiago} />
-              <span className="member-name">Tiago Verdade</span>
+              <a
+                href="https://www.linkedin.com/in/tcverdade/"
+                className="member-name"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Tiago Verdade
+              </a>
             </span>
           </div>
         </div>

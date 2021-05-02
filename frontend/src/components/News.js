@@ -31,7 +31,13 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
                       <li className="news-item" key={i}>
                         <span className="news-source">{preview.site_name}</span>
                         <h5 className="news-title">
-                          <a href={preview.link}>{preview.title}</a>
+                          <a
+                            href={preview.link}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {preview.title}
+                          </a>
                         </h5>
                         <p className="news-description">
                           {preview.description}

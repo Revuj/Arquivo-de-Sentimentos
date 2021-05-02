@@ -64,5 +64,7 @@
 
   "entity": "Entity",
 
-  "image": "image"
+  "image": "image",
+
+  "contact": "contact"
 }
