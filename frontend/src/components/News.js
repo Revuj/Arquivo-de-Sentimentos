@@ -39,7 +39,9 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
                           <span className="news-source">
                             {preview.site_name}
                           </span>
-                          <h5 className="news-title">{preview.title}</h5>
+                          <h5 className="news-title">
+                              {preview.title}
+                          </h5>
                           <p className="news-description">
                             {preview.description}
                           </p>

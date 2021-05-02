@@ -12,7 +12,7 @@ import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 import { withTranslation } from 'react-i18next';
 import News from './News';
-import { Set } from 'immutable';
+// import { Set } from 'immutable';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
@@ -82,10 +82,11 @@ function Main({ t, examples, setExamples }) {
 
   const requestNews = (entity, source) => {
     axios.get('/previews', { params: { entity, source } }).then((res) => {
-      setPreviews((current) => {
+      setPreviews((prev) => {
+        let current = Object.assign({}, prev); 
         if (!current) {
           current = {};
-          current[entity] = new Set([...res.data.previews]);
+          current[entity] = new Set();
         } else if (entity in current) {
           current[entity] = new Set([...current[entity], ...res.data.previews]);
         } else {
@@ -136,7 +137,10 @@ function Main({ t, examples, setExamples }) {
   const clearOutputs = () => {
     setSentimentScores({});
     setMagnitudeScores({});
-    setPreviews(null);
+    setPreviews((cur) => {
+      console.log(cur)
+      return null;
+    });
     setSelectedEntity(null);
     setLoadingSources({
       'Correio da Manhã': 0,
