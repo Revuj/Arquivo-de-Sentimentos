@@ -157,16 +157,22 @@ function Main({ t, examples, setExamples }) {
   };
 
   const exportPdf = (fileName) => {
-    exportComponentAsPDF('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
-      fileName,
-      pdfOptions: { w: 760, h: 458, unit: 'pt', orientation: 'p' },
-    });
+    exportComponentAsPDF(
+      exportTitle === 'sentiment_score' ? scoreCardRef : magnitudeCardRef,
+      {
+        fileName,
+        pdfOptions: { w: 760, h: 458, unit: 'pt', orientation: 'p' },
+      }
+    );
   };
 
   const exportImage = (fileName) => {
-    exportComponentAsJPEG('sentiment_score' ? scoreCardRef : magnitudeCardRef, {
-      fileName: `${fileName}.jpg`,
-    });
+    exportComponentAsJPEG(
+      exportTitle === 'sentiment_score' ? scoreCardRef : magnitudeCardRef,
+      {
+        fileName: `${fileName}.jpg`,
+      }
+    );
   };
 
   const entitiesInput = () => {
@@ -177,7 +183,6 @@ function Main({ t, examples, setExamples }) {
           <Input
             type="text"
             name="entity"
-            id="source-url"
             className="entity-name"
             placeholder="Write your entity in here"
             value={value}
