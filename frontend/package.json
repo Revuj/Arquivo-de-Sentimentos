@@ -14,6 +14,7 @@
     "i18next": "^20.2.2",
     "i18next-browser-languagedetector": "^6.1.0",
     "i18next-http-backend": "^1.2.1",
+    "immutable": "^4.0.0-rc.12",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
     "react-component-export-image": "^1.0.6",
