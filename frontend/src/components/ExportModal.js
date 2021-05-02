@@ -33,7 +33,7 @@ const ExportModal = ({
   const exportResults = () => {
     if (selectedFormats.has('csv')) exportCsv(data, title);
     if (selectedFormats.has('pdf')) exportPdf(title);
-    if (selectedFormats.has('image')) exportImage(title);
+    if (selectedFormats.has(t('image'))) exportImage(title);
   };
 
   return (
