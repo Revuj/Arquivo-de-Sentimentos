@@ -82,15 +82,18 @@ function Main({ t, examples, setExamples }) {
 
   const requestNews = (entity, source) => {
     axios.get('/previews', { params: { entity, source } }).then((res) => {
+      console.log({ entity, source });
+      console.log(res.data.previews);
       setPreviews((current) => {
         if (!current) {
           current = {};
-          current[entity] = res.data.previews;
-        } else if (source in current) {
-          current[entity].push(res.data.previews);
+          current[entity] = new Set([...res.data.previews]);
+        } else if (entity in current) {
+          current[entity] = new Set([...current[entity], ...res.data.previews]);
         } else {
-          current[entity] = res.data.previews;
+          current[entity] = new Set([...res.data.previews]);
         }
+        console.log(current);
         return current;
       });
       if (!selectedEntity) setSelectedEntity(entity);

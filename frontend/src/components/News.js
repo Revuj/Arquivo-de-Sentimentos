@@ -24,10 +24,10 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
             <ul id="news-list">
               {previews &&
                 selectedEntity &&
-                previews[selectedEntity].map((preview) => {
+                previews[selectedEntity].map((preview, i) => {
                   if (sources.has(preview.website)) {
                     return (
-                      <li className="news-item">
+                      <li className="news-item" key={i}>
                         <span className="news-source">{preview.site_name}</span>
                         <h5 className="news-title">
                           <a href={preview.link}>{preview.title}</a>
