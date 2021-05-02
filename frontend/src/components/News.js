@@ -28,26 +28,27 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
                   .filter((preview) => sources.has(preview.website))
                   .map((preview, i) => {
                     return (
-                      <li className="news-item" key={i}>
-                        <span className="news-source">{preview.site_name}</span>
-                        <h5 className="news-title">
-                          <a
-                            href={preview.link}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {preview.title}
-                          </a>
-                        </h5>
-                        <p className="news-description">
-                          {preview.description}
-                        </p>
-                        <img
-                          className="news-image"
-                          src={preview.image}
-                          alt={preview.title}
-                        />
-                      </li>
+                      <a
+                        href={preview.link}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="anchor-news"
+                      >
+                        <li className="news-item" key={i}>
+                          <span className="news-source">{preview.site_name}</span>
+                          <h5 className="news-title">
+                              {preview.title}
+                          </h5>
+                          <p className="news-description">
+                            {preview.description}
+                          </p>
+                          <img
+                            className="news-image"
+                            src={preview.image}
+                            alt={preview.title}
+                          />
+                        </li>
+                      </a>
                     );
                   })}
             </ul>

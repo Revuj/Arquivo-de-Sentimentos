@@ -18,11 +18,19 @@
   overflow-y: scroll;
 }
 
+.anchor-news {
+  text-decoration: none !important;
+}
+
 .news-item {
   padding: 20px 10px;
   border-bottom: 1px solid var(--light-gray);
   display: flex;
   flex-direction: column;
+}
+
+.news-item:hover {
+  background-color: rgb(245, 245, 245);
 }
 
 .news-source {
