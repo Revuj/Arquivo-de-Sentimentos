@@ -12,7 +12,7 @@ import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 import { withTranslation } from 'react-i18next';
 import News from './News';
-// import { Set } from 'immutable';
+import { Set } from 'immutable';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
@@ -104,8 +104,9 @@ function Main({ t, examples, setExamples }) {
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
     setLoadingSources((prev) => {
-      prev[source] += 1;
-      return prev;
+      let current = Object.assign({}, prev);
+      current[source] += 1;
+      return current;
     });
 
     axios.get('/analyse', { params }).then((res) => {
@@ -127,8 +128,9 @@ function Main({ t, examples, setExamples }) {
       });
 
       setLoadingSources((prev) => {
-        prev[source] -= 1;
-        return prev;
+        let current = Object.assign({}, prev);
+        current[source] -= 1;
+        return current;
       });
       requestNews(entity, source);
     });
