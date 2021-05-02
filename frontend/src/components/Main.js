@@ -28,7 +28,7 @@ function Main({ t, examples, setExamples }) {
   const [loadingSources, setLoadingSources] = useState({
     'Correio da Manhã': 0,
     'Jornal de Notícias': 0,
-    'Público': 0,
+    Público: 0,
   });
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportTitle, setExportTitle] = useState('');
@@ -37,11 +37,14 @@ function Main({ t, examples, setExamples }) {
 
   const [queryEntities, setQueryEntities] = useState(new Set());
 
+  const [selectedEntity, setSelectedEntity] = useState(null);
+
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
 
   useEffect(() => {
     if (examples.length > 0) {
+      clearOutputs();
       setForm({ ...form, entities: examples });
     }
   }, [examples]);
@@ -80,11 +83,17 @@ function Main({ t, examples, setExamples }) {
   const requestNews = (entity, source) => {
     axios.get('/previews', { params: { entity, source } }).then((res) => {
       setPreviews((current) => {
-        const data = res.data;
-        const p = current == null ? [] : current.previews;
-        const set = new Set([...p, ...data.previews]);
-        return { previews: [...set] };
+        if (!current) {
+          current = {};
+          current[entity] = res.data.previews;
+        } else if (source in current) {
+          current[entity].push(res.data.previews);
+        } else {
+          current[entity] = res.data.previews;
+        }
+        return current;
       });
+      if (!selectedEntity) setSelectedEntity(entity);
     });
   };
 
@@ -125,6 +134,7 @@ function Main({ t, examples, setExamples }) {
     setSentimentScores({});
     setMagnitudeScores({});
     setPreviews(null);
+    setSelectedEntity(null);
   };
 
   const handleSubmit = () => {
@@ -347,7 +357,7 @@ function Main({ t, examples, setExamples }) {
               }}
             >
               <BiDownload size={16} className="export-icon" />
-                {t('export')}
+              {t('export')}
             </button>
           )}
         </div>
@@ -391,7 +401,12 @@ function Main({ t, examples, setExamples }) {
         {outputSection()}
         {showExportModal && exportModal()}
       </div>
-      <News previews={previews} sources={sources} />
+      <News
+        previews={previews}
+        sources={sources}
+        selectedEntity={selectedEntity}
+        setSelectedEntity={setSelectedEntity}
+      />
     </div>
   );
 }

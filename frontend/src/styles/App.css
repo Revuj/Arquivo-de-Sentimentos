@@ -247,6 +247,11 @@ input.entity-name {
   color: var(--gray);
   font-size: 14px;
   line-height: 24px;
+  background-color: #fff !important;
+}
+
+input.entity-name:-internal-autofill-selected {
+  background-color: #fff !important;
 }
 
 input.entity-name::placeholder {
