@@ -58,6 +58,8 @@ def get_articles_urls(entity, source):
       response_items = response_json['response_items']
       for item in response_items:
         for word in entity.split():
+          if word in {'do', 'da', 'de', 'dos', 'das', 'e', 'o', 'a'}:
+            continue
           if word in item['title']:
             urls.append(item['linkToOriginalFile'])
             break
