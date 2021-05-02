@@ -149,8 +149,6 @@ function Main({ t, examples, setExamples }) {
   };
 
   const toggleSource = (source) => {
-    console.log(source);
-    console.log(sources);
     if (sources.has(source)) {
       setSources((prev) => new Set([...prev].filter((x) => x !== source)));
     } else {
@@ -185,6 +183,12 @@ function Main({ t, examples, setExamples }) {
             value={value}
             onChange={(e) => {
               handleChange(e, i);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSubmit();
+              }
             }}
           />
           <HiMinusCircle

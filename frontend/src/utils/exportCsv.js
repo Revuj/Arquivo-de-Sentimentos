@@ -37,7 +37,6 @@ const years = [
 ];
 
 export const exportCsv = (data, filename) => {
-  console.log(data);
   for (let entity in data) {
     let jsonData = [];
     for (let source in data[entity]) {
