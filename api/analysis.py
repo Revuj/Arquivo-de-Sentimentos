@@ -8,9 +8,6 @@ from bs4 import BeautifulSoup
 
 from mongo import mongo_client, mongo_address
 from bson.objectid import ObjectId
-from create_celery import make_celery
-
-celery = make_celery(None)
 
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
@@ -133,26 +130,33 @@ def fetch_link_preview(link):
     return
 
   try:
-    return {'title':link_title['content'], 'description':link_description['content'], 'site_name':link_site_name['content'], 'image':link_image['content']}
+    return {'title':link_title['content'], 'description':link_description['content'], 'site_name':link_site_name['content'], 'image':link_image['content'], 'link':link}
   except KeyError:
     return
 
 
-@celery.task()
-def create_link_previews(_id):
-  
-  previews = []
-  with MongoClient(mongo_address) as client:
-    oid = ObjectId(_id)
-    db = client.ArquivoSentimentos
-    doc = db.ArquivoSentimentos.find_one({'_id': oid})
-    if not doc:
-      return
-
-    previews = filter(lambda x: x is not None, map(fetch_link_preview, doc['news']))
-    previews = list(previews)
-    db.ArquivoSentimentos.update({'_id': oid}, {'$set': {'link_previews': previews}})
+def create_link_previews(doc, db):
+  previews = filter(lambda x: x is not None, map(fetch_link_preview, doc['news']))
+  previews = list(previews)
+  db.ArquivoSentimentos.update({'_id': doc['_id']}, {'$set': {'link_previews': previews}})
   return previews
+
+def get_link_previews(name, website):
+
+  db = mongo_client.ArquivoSentimentos
+  doc = db.ArquivoSentimentos.find_one({'website':website, 'name':name})
+  if not doc:
+    print(f'Unknown query {website} - {name}')
+    return
+
+
+  res = None
+  if 'link_previews' not in doc:
+    res = create_link_previews(doc, db)
+  else:
+    res = doc['link_previews']
+  return res
+
 
 def analysis(entity, source):
 
@@ -163,9 +167,6 @@ def analysis(entity, source):
   doc = db.ArquivoSentimentos.find_one(query)
 
   if doc:
-
-    if 'link_previews' not in doc:
-      create_link_previews.delay(str(doc['_id']))
     return [doc['sentiment'], doc['magnitude']]
   else:
     urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
@@ -190,8 +191,6 @@ def analysis(entity, source):
       'news': total_urls
     }
     inserted = db.ArquivoSentimentos.insert_one(element)
-
-    create_link_previews.delay(str(inserted.inserted_id))
 
     return [score_by_year, magnitude_by_year]
 

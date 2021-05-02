@@ -12,6 +12,7 @@ import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 import { withTranslation } from 'react-i18next';
 import News from './News';
+import { Set } from 'immutable';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
 
@@ -76,12 +77,22 @@ function Main({ t, examples, setExamples }) {
     });
   };
 
-  const requestNews = (entity) => {
-    axios.get('/previews', { params: { entity } }).then((res) => {
-      const data = res.data;
-      setPreviews({ previews: data.previews });
+
+    const requestNews = (entity, source) => {
+
+    axios.get('/previews', { params: { entity, source }}).then( (res) => {
+
+        setPreviews( (current) => {
+
+          const data = res.data;
+          const p = current == null ? [] : current.previews;
+          const set = new Set([...p, ...data.previews]);
+          return {previews: [...set]};
+        });
     });
-  };
+
+
+    }
 
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
@@ -112,7 +123,7 @@ function Main({ t, examples, setExamples }) {
         prev[source] -= 1;
         return prev;
       });
-      requestNews(entity);
+      requestNews(entity, source);
     });
   };
 

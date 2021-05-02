@@ -1,18 +1,13 @@
 import time
 from flask import Flask, request
-from create_celery import make_celery
 from dotenv import load_dotenv
+import analysis
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
-app.config.update(CELERY_BROKER_URL=os.environ['REDIS_URL'])
-celery = make_celery(app)
-import analysis
-from tasks import do_in_background
 
-from mongo import mongo_client
 
 @app.route('/time')
 def get_current_time():
@@ -34,16 +29,8 @@ def analyse():
 def previews():
 
     entity = request.args.get('entity')
-    db = mongo_client.ArquivoSentimentos
-    res = db.ArquivoSentimentos.find({'name':entity})
-
-    previews = []
-    for document in res:
-
-        if 'link_previews' not in document:
-            continue
-        previews.extend(document['link_previews'])
-    return {'previews': previews}
+    source = request.args.get('source')
+    return {'previews': analysis.get_link_previews(entity, source)}
 
 
 if __name__ == '__main__':
