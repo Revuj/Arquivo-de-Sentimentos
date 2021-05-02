@@ -93,7 +93,11 @@ function Main({ t, examples, setExamples }) {
         }
         return current;
       });
-      if (!selectedEntity) setSelectedEntity(entity);
+      setSelectedEntity((curEntity) => {
+        if (!curEntity)
+          return entity;
+        return curEntity;
+      });
     });
   };
 
