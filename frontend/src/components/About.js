@@ -57,6 +57,7 @@ const About = ({ t }) => {
               <a
                 href="https://github.com/arquivo/pwa-technologies/wiki/Arquivo.pt-API"
                 target="_blank"
+                rel="noreferrer"
               >
                 {t('howitsdone_strong1')}
               </a>
@@ -68,6 +69,7 @@ const About = ({ t }) => {
               <a
                 href="https://cloud.google.com/natural-language"
                 target="_blank"
+                rel="noreferrer"
               >
                 {t('howitsdone_strong2')}
               </a>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Dropdown,
@@ -24,8 +24,9 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
             <ul id="news-list">
               {previews &&
                 selectedEntity &&
-                previews[selectedEntity].map((preview, i) => {
-                  if (sources.has(preview.website)) {
+                [...previews[selectedEntity]]
+                  .filter((preview) => sources.has(preview.website))
+                  .map((preview, i) => {
                     return (
                       <li className="news-item" key={i}>
                         <span className="news-source">{preview.site_name}</span>
@@ -35,11 +36,14 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
                         <p className="news-description">
                           {preview.description}
                         </p>
-                        <img className="news-image" src={preview.image} />
+                        <img
+                          className="news-image"
+                          src={preview.image}
+                          alt={preview.title}
+                        />
                       </li>
                     );
-                  }
-                })}
+                  })}
             </ul>
           </div>
           <Dropdown id="news-dropdown" isOpen={dropdownOpen} toggle={toggle}>
@@ -50,7 +54,10 @@ const News = ({ t, previews, sources, selectedEntity, setSelectedEntity }) => {
               {previews &&
                 Object.keys(previews).map((entity) => {
                   return (
-                    <DropdownItem onClick={() => setSelectedEntity(entity)}>
+                    <DropdownItem
+                      onClick={() => setSelectedEntity(entity)}
+                      key={entity}
+                    >
                       {entity}
                     </DropdownItem>
                   );

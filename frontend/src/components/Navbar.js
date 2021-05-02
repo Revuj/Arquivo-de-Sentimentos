@@ -6,12 +6,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText,
 } from 'reactstrap';
 import '../styles/Navbar.css';
 import Logo from '../assets/logo.svg';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
 const YearsRange = ({ values, setValues }) => {

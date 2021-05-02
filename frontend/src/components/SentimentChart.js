@@ -1,4 +1,3 @@
-import { values } from 'lodash';
 import React from 'react';
 import { Line, defaults } from 'react-chartjs-2';
 
@@ -11,7 +10,7 @@ const SentimentChart = ({
   lastYearIndex,
   sources,
   entities,
-  groupSources
+  groupSources,
 }) => {
   const colors = [
     '#0346f2',
@@ -52,19 +51,24 @@ const SentimentChart = ({
   const datasets = [];
   let colorIndex = 0;
   for (const entity in sentimentScores) {
-    if (entities.has(entity)){
-      if (groupSources){
+    if (entities.has(entity)) {
+      if (groupSources) {
         const sentiments = [];
-        for (const source in sentimentScores[entity]){
-          if (sources.has(source)){
-            sentiments.push(sentimentScores[entity][source].slice(firstYearIndex, lastYearIndex));
+        for (const source in sentimentScores[entity]) {
+          if (sources.has(source)) {
+            sentiments.push(
+              sentimentScores[entity][source].slice(
+                firstYearIndex,
+                lastYearIndex
+              )
+            );
           }
         }
-        if (sentiments.length > 0){
+        if (sentiments.length > 0) {
           const finalSentimentos = [];
-          for (let i = 0; i < sentiments[0].length; i++){
+          for (let i = 0; i < sentiments[0].length; i++) {
             var cur = 0;
-            for (let j = 0; j < sentiments.length; j++){
+            for (let j = 0; j < sentiments.length; j++) {
               cur += sentiments[j][i];
             }
             cur = cur / sentiments.length;
@@ -80,11 +84,14 @@ const SentimentChart = ({
           });
         }
       } else {
-        for (const source in sentimentScores[entity]){
-          if (sources.has(source)){
+        for (const source in sentimentScores[entity]) {
+          if (sources.has(source)) {
             datasets.push({
               label: source,
-              data: sentimentScores[entity][source].slice(firstYearIndex, lastYearIndex),
+              data: sentimentScores[entity][source].slice(
+                firstYearIndex,
+                lastYearIndex
+              ),
               fill: false,
               backgroundColor: colors[colorIndex],
               borderColor: colors[colorIndex++] + '55',

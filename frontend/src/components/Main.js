@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createRef } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import {
   exportComponentAsJPEG,
   exportComponentAsPDF,
@@ -82,8 +82,6 @@ function Main({ t, examples, setExamples }) {
 
   const requestNews = (entity, source) => {
     axios.get('/previews', { params: { entity, source } }).then((res) => {
-      console.log({ entity, source });
-      console.log(res.data.previews);
       setPreviews((current) => {
         if (!current) {
           current = {};
@@ -93,7 +91,6 @@ function Main({ t, examples, setExamples }) {
         } else {
           current[entity] = new Set([...res.data.previews]);
         }
-        console.log(current);
         return current;
       });
       if (!selectedEntity) setSelectedEntity(entity);
@@ -178,9 +175,8 @@ function Main({ t, examples, setExamples }) {
     const entitiesElements = [];
     form.entities.forEach((value, i) => {
       entitiesElements.push(
-        <div className="d-flex">
+        <div className="d-flex" key={i}>
           <Input
-            key={i}
             type="text"
             name="entity"
             id="source-url"
@@ -194,7 +190,7 @@ function Main({ t, examples, setExamples }) {
           <HiMinusCircle
             size={30}
             id="minus-entity-button"
-            className={form.entities.length == 1 ? 'disabled' : ''}
+            className={form.entities.length === 1 ? 'disabled' : ''}
             onClick={() => {
               handleRemove(i);
             }}

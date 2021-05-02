@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import { HiX } from 'react-icons/hi';
 import { exportCsv } from '../utils/exportCsv';
