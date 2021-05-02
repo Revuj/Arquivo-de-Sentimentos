@@ -1,6 +1,7 @@
 import time
 from flask import Flask, request
 from dotenv import load_dotenv
+from mongo import mongo_client
 import analysis
 import os
 
@@ -17,6 +18,10 @@ sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': '
 
 @app.route('/analyse', methods=['POST', 'GET'])
 def analyse():
+    '''
+    db = mongo_client.ArquivoSentimentos
+    db.ArquivoSentimentos.update_many({}, {'$unset': {'link_previews':1}})
+    '''
     entity = request.args.get('entity')
     source = request.args.get('source')
 

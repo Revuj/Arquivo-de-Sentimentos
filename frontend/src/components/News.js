@@ -10,7 +10,7 @@ import { withTranslation } from 'react-i18next';
 import { ImNewspaper } from 'react-icons/im';
 import '../styles/News.css';
 
-const News = ({ t, previews }) => {
+const News = ({ t, previews, sources }) => {
   const [hidden, setHidden] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedEntity, setSelectedEntity] = useState(null);
@@ -25,6 +25,8 @@ const News = ({ t, previews }) => {
             <ul id="news-list">
               {previews &&
                 [...previews.previews].map((preview) => {
+		  if(!sources.has(preview.website))
+			return null;
                   return (
                     <li className="news-item">
                       <span className="news-source">{preview.site_name}</span>

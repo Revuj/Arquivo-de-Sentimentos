@@ -5,6 +5,7 @@ from google.cloud import language_v1
 from google.cloud import language_v1
 import newsfetcher
 from bs4 import BeautifulSoup
+from functools import partial
 
 from mongo import mongo_client, mongo_address
 from bson.objectid import ObjectId
@@ -113,7 +114,7 @@ def analyze_sentiment(text_content):
     return response.document_sentiment.score, response.document_sentiment.magnitude
 
 
-def fetch_link_preview(link):
+def fetch_link_preview(website, link):
   req = requests.get(link)
   if req.status_code != 200:
     return
@@ -130,13 +131,14 @@ def fetch_link_preview(link):
     return
 
   try:
-    return {'title':link_title['content'], 'description':link_description['content'], 'site_name':link_site_name['content'], 'image':link_image['content'], 'link':link}
+    return {'title':link_title['content'], 'description':link_description['content'], 'site_name':link_site_name['content'], 'image':link_image['content'], 'link':link, 'website':website}
   except KeyError:
     return
 
 
 def create_link_previews(doc, db):
-  previews = filter(lambda x: x is not None, map(fetch_link_preview, doc['news']))
+  fetch_bound = partial(fetch_link_preview, doc['website'])
+  previews = filter(lambda x: x is not None, map(fetch_bound, doc['news']))
   previews = list(previews)
   db.ArquivoSentimentos.update({'_id': doc['_id']}, {'$set': {'link_previews': previews}})
   return previews

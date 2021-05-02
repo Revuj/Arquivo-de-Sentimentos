@@ -144,6 +144,9 @@ function Main({ t, examples, setExamples }) {
   };
 
   const toggleSource = (source) => {
+    
+    console.log(source);
+    console.log(sources);
     if (sources.has(source)) {
       setSources((prev) => new Set([...prev].filter((x) => x !== source)));
     } else {
@@ -394,7 +397,7 @@ function Main({ t, examples, setExamples }) {
         {outputSection()}
         {showExportModal && exportModal()}
       </div>
-      <News previews={previews} />
+      <News previews={previews} sources={sources} />
     </div>
   );
 }
