@@ -83,7 +83,7 @@ function Main({ t, examples, setExamples }) {
   const requestNews = (entity, source) => {
     axios.get('/previews', { params: { entity, source } }).then((res) => {
       setPreviews((prev) => {
-        let current = Object.assign({}, prev); 
+        let current = Object.assign({}, prev);
         if (!current) {
           current = {};
           current[entity] = new Set();
@@ -140,7 +140,6 @@ function Main({ t, examples, setExamples }) {
     setSentimentScores({});
     setMagnitudeScores({});
     setPreviews((cur) => {
-      console.log(cur)
       return null;
     });
     setSelectedEntity(null);
