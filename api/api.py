@@ -1,18 +1,12 @@
-import time
-from flask import Flask, request
 from dotenv import load_dotenv
+load_dotenv()
+from flask import Flask, request
 from mongo import mongo_client
 import analysis
 import os
 
-load_dotenv()
 
 app = Flask(__name__)
-
-
-@app.route('/time')
-def get_current_time():
-    return {'time': time.time()}
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
