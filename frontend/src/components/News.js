@@ -28,7 +28,7 @@ const News = ({ t, previews }) => {
                   return (
                     <li className="news-item">
                       <span className="news-source">{preview.site_name}</span>
-                      <h5 className="news-title">{preview.title}</h5>
+                      <h5 className="news-title"><a href={preview.link}>{preview.title}</a></h5>
                       <p className="news-description">{preview.description}</p>
                       <img className="news-image" src={preview.image} />
                     </li>
