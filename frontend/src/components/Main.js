@@ -77,22 +77,16 @@ function Main({ t, examples, setExamples }) {
     });
   };
 
-
-    const requestNews = (entity, source) => {
-
-    axios.get('/previews', { params: { entity, source }}).then( (res) => {
-
-        setPreviews( (current) => {
-
-          const data = res.data;
-          const p = current == null ? [] : current.previews;
-          const set = new Set([...p, ...data.previews]);
-          return {previews: [...set]};
-        });
+  const requestNews = (entity, source) => {
+    axios.get('/previews', { params: { entity, source } }).then((res) => {
+      setPreviews((current) => {
+        const data = res.data;
+        const p = current == null ? [] : current.previews;
+        const set = new Set([...p, ...data.previews]);
+        return { previews: [...set] };
+      });
     });
-
-
-    }
+  };
 
   const requestAnalysis = (entity, source) => {
     let params = { entity, source };
@@ -130,6 +124,7 @@ function Main({ t, examples, setExamples }) {
   const clearOutputs = () => {
     setSentimentScores({});
     setMagnitudeScores({});
+    setPreviews(null);
   };
 
   const handleSubmit = () => {
@@ -144,7 +139,6 @@ function Main({ t, examples, setExamples }) {
   };
 
   const toggleSource = (source) => {
-    
     console.log(source);
     console.log(sources);
     if (sources.has(source)) {
