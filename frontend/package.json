@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -27,15 +27,11 @@
     "reactstrap": "^8.9.0",
     "web-vitals": "^1.1.0"
   },
-  "cacheDirectories": [
-    "node_modules"
-  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm install && npm run build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
