@@ -31,7 +31,7 @@ def previews():
     return {'previews': analysis.get_link_previews(entity, source)}
 
 
-@app.route('/')
+@app.route('/', defaults={'path':''})
 def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
