@@ -50,7 +50,7 @@ function Main({ t, examples, setExamples }) {
   }, [examples]);
 
   useEffect(() => {
-    if (examples.length > 0) {
+    if (examples.length > 0 && JSON.stringify(examples) == JSON.stringify(form.entities)) {
       handleSubmit();
       setExamples([]);
     }
