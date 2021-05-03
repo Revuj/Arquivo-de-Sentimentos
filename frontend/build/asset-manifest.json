@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.846fd51f.chunk.css",
-    "main.js": "/static/js/main.f02daeae.chunk.js",
-    "main.js.map": "/static/js/main.f02daeae.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.248907bc.js",
-    "runtime-main.js.map": "/static/js/runtime-main.248907bc.js.map",
-    "static/css/2.150d169a.chunk.css": "/static/css/2.150d169a.chunk.css",
-    "static/js/2.920d0aec.chunk.js": "/static/js/2.920d0aec.chunk.js",
-    "static/js/2.920d0aec.chunk.js.map": "/static/js/2.920d0aec.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/2.150d169a.chunk.css.map": "/static/css/2.150d169a.chunk.css.map",
-    "static/css/main.846fd51f.chunk.css.map": "/static/css/main.846fd51f.chunk.css.map",
-    "static/js/2.920d0aec.chunk.js.LICENSE.txt": "/static/js/2.920d0aec.chunk.js.LICENSE.txt",
-    "static/media/logo.1344d1b7.svg": "/static/media/logo.1344d1b7.svg",
-    "static/media/rafa.b1c4470d.jpg": "/static/media/rafa.b1c4470d.jpg",
-    "static/media/tiago.dd4b4368.jpg": "/static/media/tiago.dd4b4368.jpg",
-    "static/media/ze.d568181e.jpg": "/static/media/ze.d568181e.jpg"
+    "main.css": "./static/css/main.846fd51f.chunk.css",
+    "main.js": "./static/js/main.ceb3369b.chunk.js",
+    "main.js.map": "./static/js/main.ceb3369b.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.a9245325.js",
+    "runtime-main.js.map": "./static/js/runtime-main.a9245325.js.map",
+    "static/css/2.150d169a.chunk.css": "./static/css/2.150d169a.chunk.css",
+    "static/js/2.263fb12c.chunk.js": "./static/js/2.263fb12c.chunk.js",
+    "static/js/2.263fb12c.chunk.js.map": "./static/js/2.263fb12c.chunk.js.map",
+    "index.html": "./index.html",
+    "static/css/2.150d169a.chunk.css.map": "./static/css/2.150d169a.chunk.css.map",
+    "static/css/main.846fd51f.chunk.css.map": "./static/css/main.846fd51f.chunk.css.map",
+    "static/js/2.263fb12c.chunk.js.LICENSE.txt": "./static/js/2.263fb12c.chunk.js.LICENSE.txt",
+    "static/media/logo.1344d1b7.svg": "./static/media/logo.1344d1b7.svg",
+    "static/media/rafa.b1c4470d.jpg": "./static/media/rafa.b1c4470d.jpg",
+    "static/media/tiago.dd4b4368.jpg": "./static/media/tiago.dd4b4368.jpg",
+    "static/media/ze.d568181e.jpg": "./static/media/ze.d568181e.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.248907bc.js",
+    "static/js/runtime-main.a9245325.js",
     "static/css/2.150d169a.chunk.css",
-    "static/js/2.920d0aec.chunk.js",
+    "static/js/2.263fb12c.chunk.js",
     "static/css/main.846fd51f.chunk.css",
-    "static/js/main.f02daeae.chunk.js"
+    "static/js/main.ceb3369b.chunk.js"
   ]
 }
