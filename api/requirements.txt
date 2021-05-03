@@ -42,7 +42,6 @@ lxml==4.6.2
 MarkupSafe==1.1.1
 mypy-extensions==0.4.3
 newspaper3k==0.2.8
-nltk==3.5
 packaging==20.9
 Pillow==8.1.1
 prometheus-client==0.8.0
