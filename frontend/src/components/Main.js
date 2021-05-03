@@ -85,7 +85,7 @@ function Main({ t, examples, setExamples }) {
 
   const requestNews = (entity, source) => {
     axios
-      .get('https://arquivo-de-sentimentos.herokuapp.com/previews', {
+      .get(`${process.env.REACT_APP_PROXY}/previews`, {
         params: { entity, source },
       })
       .then((res) => {
@@ -120,7 +120,7 @@ function Main({ t, examples, setExamples }) {
     });
 
     axios
-      .get('https://arquivo-de-sentimentos.herokuapp.com/analyse', { params })
+      .get(`${process.env.REACT_APP_PROXY}/analyse`, { params })
       .then((res) => {
         setSentimentScores((current) => {
           let st = { ...current };
