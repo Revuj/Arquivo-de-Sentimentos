@@ -1,9 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from mongo import mongo_client
-import boto3
 import analysis
 import os
 
@@ -35,6 +34,6 @@ def previews():
 @app.route('/')
 def serve():
     return send_from_directory(app.static_folder, 'index.html')
-    
+
 if __name__ == '__main__':
     app.run(threaded=True)
