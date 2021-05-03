@@ -50,7 +50,10 @@ function Main({ t, examples, setExamples }) {
   }, [examples]);
 
   useEffect(() => {
-    if (examples.length > 0 && JSON.stringify(examples) == JSON.stringify(form.entities)) {
+    if (
+      examples.length > 0 &&
+      JSON.stringify(examples) == JSON.stringify(form.entities)
+    ) {
       handleSubmit();
       setExamples([]);
     }
@@ -81,24 +84,31 @@ function Main({ t, examples, setExamples }) {
   };
 
   const requestNews = (entity, source) => {
-    axios.get('/previews', { params: { entity, source } }).then((res) => {
-      setPreviews((prev) => {
-        let current = Object.assign({}, prev);
-        if (!current) {
-          current = {};
-          current[entity] = new Set();
-        } else if (entity in current) {
-          current[entity] = new Set([...current[entity], ...res.data.previews]);
-        } else {
-          current[entity] = new Set([...res.data.previews]);
-        }
-        return current;
+    axios
+      .get('https://arquivo-de-sentimentos.herokuapp.com/previews', {
+        params: { entity, source },
+      })
+      .then((res) => {
+        setPreviews((prev) => {
+          let current = Object.assign({}, prev);
+          if (!current) {
+            current = {};
+            current[entity] = new Set();
+          } else if (entity in current) {
+            current[entity] = new Set([
+              ...current[entity],
+              ...res.data.previews,
+            ]);
+          } else {
+            current[entity] = new Set([...res.data.previews]);
+          }
+          return current;
+        });
+        setSelectedEntity((curEntity) => {
+          if (!curEntity) return entity;
+          return curEntity;
+        });
       });
-      setSelectedEntity((curEntity) => {
-        if (!curEntity) return entity;
-        return curEntity;
-      });
-    });
   };
 
   const requestAnalysis = (entity, source) => {
@@ -109,31 +119,33 @@ function Main({ t, examples, setExamples }) {
       return current;
     });
 
-    axios.get('/analyse', { params }).then((res) => {
-      setSentimentScores((current) => {
-        let st = { ...current };
-        let st_en = { ...st[entity] };
-        st_en[source] = res.data.sentiment[source];
-        st[entity] = st_en;
+    axios
+      .get('https://arquivo-de-sentimentos.herokuapp.com/analyse', { params })
+      .then((res) => {
+        setSentimentScores((current) => {
+          let st = { ...current };
+          let st_en = { ...st[entity] };
+          st_en[source] = res.data.sentiment[source];
+          st[entity] = st_en;
 
-        return st;
-      });
+          return st;
+        });
 
-      setMagnitudeScores((current) => {
-        let st = { ...current };
-        let st_en = { ...st[entity] };
-        st_en[source] = res.data.magnitude[source];
-        st[entity] = st_en;
-        return st;
-      });
+        setMagnitudeScores((current) => {
+          let st = { ...current };
+          let st_en = { ...st[entity] };
+          st_en[source] = res.data.magnitude[source];
+          st[entity] = st_en;
+          return st;
+        });
 
-      setLoadingSources((prev) => {
-        let current = Object.assign({}, prev);
-        current[source] -= 1;
-        return current;
+        setLoadingSources((prev) => {
+          let current = Object.assign({}, prev);
+          current[source] -= 1;
+          return current;
+        });
+        requestNews(entity, source);
       });
-      requestNews(entity, source);
-    });
   };
 
   const clearOutputs = () => {
