@@ -17,7 +17,6 @@ sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': '
 def analyse():
     entity = request.args.get('entity')
     source = request.args.get('source')
-
     analysis_by_year, magnitude_by_year = analysis.analysis(entity, source)
     return { 'sentiment': { source : analysis_by_year }, 'magnitude': { source : magnitude_by_year } }
 
