@@ -8,12 +8,12 @@ import os
 
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
-cors = CORS(app)
+# cors = CORS(app)
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
 @app.route('/analyse', methods=['POST', 'GET'])
-@cross_origin()
+# @cross_origin()
 def analyse():
     entity = request.args.get('entity')
     source = request.args.get('source')
@@ -24,7 +24,7 @@ def analyse():
 
 
 @app.route('/previews')
-@cross_origin()
+# @cross_origin()
 def previews():
     entity = request.args.get('entity')
     source = request.args.get('source')
