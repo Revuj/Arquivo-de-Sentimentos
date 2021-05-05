@@ -35,12 +35,20 @@ function Main({ t, examples, setExamples }) {
   const [exportData, setExportData] = useState({});
   const [showToolTip, setShowToolTip] = useState(true);
 
+  const [pendingQueries, setPendingQueries] = useState(new Set());
   const [queryEntities, setQueryEntities] = useState(new Set());
 
   const [selectedEntity, setSelectedEntity] = useState(null);
 
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      requestPendingQueries();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [pendingQueries]);
 
   useEffect(() => {
     if (examples.length > 0) {
@@ -83,6 +91,13 @@ function Main({ t, examples, setExamples }) {
     });
   };
 
+  const requestPendingQueries = () => {
+    console.log("Pending " + pendingQueries.size + " requests");
+    for (let el of pendingQueries) {
+      requestAnalysis(el.entity, el.source, true);
+    }
+  }
+
   const requestNews = (entity, source) => {
     axios
       .get(`${process.env.REACT_APP_PROXY}/previews`, {
@@ -111,13 +126,16 @@ function Main({ t, examples, setExamples }) {
       });
   };
 
-  const requestAnalysis = (entity, source) => {
+  const requestAnalysis = (entity, source, isPending=false) => {
     let params = { entity, source };
-    setLoadingSources((prev) => {
-      let current = Object.assign({}, prev);
-      current[source] += 1;
-      return current;
-    });
+
+    if (!isPending){
+      setLoadingSources((prev) => {
+        let current = Object.assign({}, prev);
+        current[source] += 1;
+        return current;
+      });
+    }    
 
     axios
       .get(`${process.env.REACT_APP_PROXY}/results`, { params })
@@ -146,9 +164,15 @@ function Main({ t, examples, setExamples }) {
             current[source] -= 1;
             return current;
           });
+
+          if (isPending){
+            setPendingQueries((prev) => new Set([...prev].filter((x) => (x.entity !== entity || x.source !== source))));
+          }
           requestNews(entity, source);
         } else if (res.data.status == 'NOT_ON_CACHE'){
-          console.log("NOT ON CACHE")
+          if (!isPending){
+            setPendingQueries((prev) => new Set(prev.add({'entity': entity, 'source': source})));
+          }
         }
       });
   };
@@ -160,6 +184,7 @@ function Main({ t, examples, setExamples }) {
       return null;
     });
     setSelectedEntity(null);
+    setPendingQueries(new Set())
     setLoadingSources({
       'Correio da Manhã': 0,
       'Jornal de Notícias': 0,
