@@ -120,31 +120,36 @@ function Main({ t, examples, setExamples }) {
     });
 
     axios
-      .get(`${process.env.REACT_APP_PROXY}/analyse`, { params })
+      .get(`${process.env.REACT_APP_PROXY}/results`, { params })
       .then((res) => {
-        setSentimentScores((current) => {
-          let st = { ...current };
-          let st_en = { ...st[entity] };
-          st_en[source] = res.data.sentiment[source];
-          st[entity] = st_en;
+        if (res.data.status == 'ON_CACHE') {
 
-          return st;
-        });
-
-        setMagnitudeScores((current) => {
-          let st = { ...current };
-          let st_en = { ...st[entity] };
-          st_en[source] = res.data.magnitude[source];
-          st[entity] = st_en;
-          return st;
-        });
-
-        setLoadingSources((prev) => {
-          let current = Object.assign({}, prev);
-          current[source] -= 1;
-          return current;
-        });
-        requestNews(entity, source);
+          setSentimentScores((current) => {
+            let st = { ...current };
+            let st_en = { ...st[entity] };
+            st_en[source] = res.data.content.sentiment[source];
+            st[entity] = st_en;
+  
+            return st;
+          });
+  
+          setMagnitudeScores((current) => {
+            let st = { ...current };
+            let st_en = { ...st[entity] };
+            st_en[source] = res.data.content.magnitude[source];
+            st[entity] = st_en;
+            return st;
+          });
+  
+          setLoadingSources((prev) => {
+            let current = Object.assign({}, prev);
+            current[source] -= 1;
+            return current;
+          });
+          requestNews(entity, source);
+        } else if (res.data.status == 'NOT_ON_CACHE'){
+          console.log("NOT ON CACHE")
+        }
       });
   };
 

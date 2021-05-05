@@ -12,6 +12,13 @@ cors = CORS(app)
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
+@app.route('/results')
+@cross_origin()
+def results():
+    entity = request.args.get('entity')
+    source = request.args.get('source')
+    return analysis.get_analysis_results(entity, source)
+
 @app.route('/analyse', methods=['POST', 'GET'])
 @cross_origin()
 def analyse():

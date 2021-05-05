@@ -196,3 +196,30 @@ def analysis(entity, source):
 
     return [score_by_year, magnitude_by_year]
 
+def get_analysis_results(entity, source):
+
+  db = mongo_client.ArquivoSentimentos
+
+  query = {"name": entity, 'website': source }
+
+  doc = db.ArquivoSentimentos.find_one(query)
+
+  if doc:
+    response = {
+      'status': 'ON_CACHE',
+      'content': { 
+        'sentiment': { source : doc['sentiment'] }, 
+        'magnitude': { source : doc['magnitude'] } 
+      }
+    }
+    return response
+  else:
+
+    # TODO schedule analysis task with celery
+    
+    response = {
+      'status': 'NOT_ON_CACHE',
+      'content': ''
+    }
+
+  return response
