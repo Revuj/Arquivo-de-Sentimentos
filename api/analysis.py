@@ -139,7 +139,7 @@ def get_cached_names():
   db = mongo_client.ArquivoSentimentos
 
   query = {"name": { "$exists": True}}
-  fields = { "name": 1, "_id": 0 }
+  fields = { "name": 1, "_id": 0}
 
   docs = db.ArquivoSentimentos.find(query, fields)
 
@@ -147,5 +147,9 @@ def get_cached_names():
   for doc in docs:
     cached_names.add(doc["name"])
 
-  return list(cached_names)
+  cached_names_list = []
+  for name in cached_names:
+    cached_names_list.append({"name": name})
+
+  return cached_names_list
 
