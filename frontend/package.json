@@ -16,6 +16,7 @@
     "i18next-http-backend": "^1.2.1",
     "immutable": "^4.0.0-rc.12",
     "react": "^17.0.1",
+    "react-autosuggest": "^10.1.0",
     "react-chartjs-2": "^2.11.1",
     "react-component-export-image": "^1.0.6",
     "react-csv": "^2.0.3",

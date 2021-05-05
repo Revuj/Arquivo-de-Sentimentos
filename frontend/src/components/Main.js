@@ -12,6 +12,7 @@ import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 import { withTranslation } from 'react-i18next';
 import News from './News';
+import InputField from './InputField';
 import { Set } from 'immutable';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
@@ -252,6 +253,7 @@ function Main({ t, examples, setExamples }) {
     form.entities.forEach((value, i) => {
       entitiesElements.push(
         <div className="d-flex" key={i}>
+          <InputField />
           <Input
             type="text"
             name="entity"
