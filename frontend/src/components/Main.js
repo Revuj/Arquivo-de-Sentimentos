@@ -4,7 +4,7 @@ import {
   exportComponentAsJPEG,
   exportComponentAsPDF,
 } from 'react-component-export-image';
-import { HiMinusCircle, HiPlusCircle } from 'react-icons/hi';
+import { HiPlusCircle } from 'react-icons/hi';
 import { BiDownload, BiInfoCircle } from 'react-icons/bi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
@@ -12,6 +12,7 @@ import SentimentChart from './SentimentChart';
 import ExportModal from './ExportModal';
 import { withTranslation } from 'react-i18next';
 import News from './News';
+import InputField from './InputField';
 import { Set } from 'immutable';
 
 const newsSources = ['Correio da Manhã', 'Jornal de Notícias', 'Público'];
@@ -43,6 +44,14 @@ function Main({ t, examples, setExamples }) {
   const scoreCardRef = createRef();
   const magnitudeCardRef = createRef();
 
+  const [cachedEntities, setCachedEntities] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_PROXY}/cache`).then((res) => {
+      setCachedEntities(res.data.names);
+    });
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       requestPendingQueries();
@@ -67,11 +76,9 @@ function Main({ t, examples, setExamples }) {
     }
   }, [form]);
 
-  const handleChange = (e, i) => {
+  const handleChange = (value, i) => {
     setForm({
-      entities: form.entities.map((el, elI) =>
-        elI === i ? e.target.value : el
-      ),
+      entities: form.entities.map((el, elI) => (elI === i ? value : el)),
     });
   };
 
@@ -83,20 +90,31 @@ function Main({ t, examples, setExamples }) {
 
   const handleRemove = (i) => {
     if (form.entities.length <= 1) return;
-    setQueryEntities(
-      new Set([...form.entities.filter((el, elI) => elI !== i)])
-    );
+    const filteredEntitiesList = form.entities.filter((el, elI) => elI !== i);
+    const filteredEntitiesSet = new Set([...filteredEntitiesList]);
+    setQueryEntities(filteredEntitiesSet);
     setForm({
-      entities: form.entities.filter((el, elI) => elI !== i),
+      entities: filteredEntitiesList,
+    });
+    setPreviews((previews) => {
+      for (let entity in previews) {
+        if (!filteredEntitiesSet.has(entity)) {
+          delete previews[entity];
+          if (selectedEntity === entity) {
+            setSelectedEntity(filteredEntitiesList[0]);
+          }
+        }
+      }
+      return previews;
     });
   };
 
   const requestPendingQueries = () => {
-    console.log("Pending " + pendingQueries.size + " requests");
+    console.log('Pending ' + pendingQueries.size + ' requests');
     for (let el of pendingQueries) {
       requestAnalysis(el.entity, el.source, true);
     }
-  }
+  };
 
   const requestNews = (entity, source) => {
     axios
@@ -126,31 +144,30 @@ function Main({ t, examples, setExamples }) {
       });
   };
 
-  const requestAnalysis = (entity, source, isPending=false) => {
+  const requestAnalysis = (entity, source, isPending = false) => {
     let params = { entity, source };
 
-    if (!isPending){
+    if (!isPending) {
       setLoadingSources((prev) => {
         let current = Object.assign({}, prev);
         current[source] += 1;
         return current;
       });
-    }    
+    }
 
     axios
       .get(`${process.env.REACT_APP_PROXY}/results`, { params })
       .then((res) => {
         if (res.data.status == 'ON_CACHE') {
-
           setSentimentScores((current) => {
             let st = { ...current };
             let st_en = { ...st[entity] };
             st_en[source] = res.data.content.sentiment[source];
             st[entity] = st_en;
-  
+
             return st;
           });
-  
+
           setMagnitudeScores((current) => {
             let st = { ...current };
             let st_en = { ...st[entity] };
@@ -158,20 +175,30 @@ function Main({ t, examples, setExamples }) {
             st[entity] = st_en;
             return st;
           });
-  
+
           setLoadingSources((prev) => {
             let current = Object.assign({}, prev);
             current[source] -= 1;
             return current;
           });
 
-          if (isPending){
-            setPendingQueries((prev) => new Set([...prev].filter((x) => (x.entity !== entity || x.source !== source))));
+          if (isPending) {
+            setPendingQueries(
+              (prev) =>
+                new Set(
+                  [...prev].filter(
+                    (x) => x.entity !== entity || x.source !== source
+                  )
+                )
+            );
           }
           requestNews(entity, source);
-        } else if (res.data.status == 'NOT_ON_CACHE'){
-          if (!isPending){
-            setPendingQueries((prev) => new Set(prev.add({'entity': entity, 'source': source})));
+        } else if (res.data.status == 'NOT_ON_CACHE') {
+          if (!isPending) {
+            setPendingQueries(
+              (prev) =>
+                new Set(prev.add({ 'entity': entity, 'source': source }))
+            );
           }
         }
       });
@@ -184,7 +211,7 @@ function Main({ t, examples, setExamples }) {
       return null;
     });
     setSelectedEntity(null);
-    setPendingQueries(new Set())
+    setPendingQueries(new Set());
     setLoadingSources({
       'Correio da Manhã': 0,
       'Jornal de Notícias': 0,
@@ -196,11 +223,13 @@ function Main({ t, examples, setExamples }) {
     clearOutputs();
     setQueryEntities(new Set([...form.entities]));
 
-    form.entities.forEach((entity) => {
-      sources.forEach((source) => {
-        requestAnalysis(entity, source);
+    form.entities
+      .filter((entity) => entity !== '')
+      .forEach((entity) => {
+        sources.forEach((source) => {
+          requestAnalysis(entity, source);
+        });
       });
-    });
   };
 
   const toggleSource = (source) => {
@@ -234,30 +263,14 @@ function Main({ t, examples, setExamples }) {
     const entitiesElements = [];
     form.entities.forEach((value, i) => {
       entitiesElements.push(
-        <div className="d-flex" key={i}>
-          <Input
-            type="text"
-            name="entity"
-            className="entity-name"
-            placeholder="Write your entity in here"
-            value={value}
-            onChange={(e) => {
-              handleChange(e, i);
-            }}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSubmit();
-              }
-            }}
-          />
-          <HiMinusCircle
-            size={30}
-            id="minus-entity-button"
-            className={form.entities.length === 1 ? 'disabled' : ''}
-            onClick={() => {
-              handleRemove(i);
-            }}
+        <div className="input-container" key={i}>
+          <InputField
+            cachedEntities={cachedEntities}
+            index={i}
+            handleChange={handleChange}
+            handleRemove={handleRemove}
+            name={value}
+            form={form}
           />
         </div>
       );

@@ -8,7 +8,7 @@
   --danger: #ff0000;
   --accent: #0346f2;
   --light-accent: #f2f5fe;
-  --primary-font: 'Source Sans Pro', Arial, sans-serif;
+  --primary-font: 'Poppins', Arial, sans-serif;
 }
 
 *,
@@ -237,25 +237,6 @@ label {
 
 strong {
   font-weight: 500;
-}
-
-input.entity-name {
-  border: none;
-  padding: 1.5rem 0.2rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--light-gray);
-  color: var(--gray);
-  font-size: 14px;
-  line-height: 24px;
-  background-color: #fff !important;
-}
-
-input.entity-name:-internal-autofill-selected {
-  background-color: #fff !important;
-}
-
-input.entity-name::placeholder {
-  color: var(--light-gray);
 }
 
 #search-button,
