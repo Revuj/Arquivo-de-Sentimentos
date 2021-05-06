@@ -89,13 +89,20 @@ function Main({ t, examples, setExamples }) {
   };
 
   const handleRemove = (i) => {
-    console.log(i);
     if (form.entities.length <= 1) return;
-    const filteredEntites = form.entities.filter((el, elI) => elI !== i);
-    console.log(filteredEntites);
-    setQueryEntities(new Set([...filteredEntites]));
+    const filteredEntitiesList = form.entities.filter((el, elI) => elI !== i);
+    const filteredEntitiesSet = new Set([...filteredEntitiesList]);
+    setQueryEntities(filteredEntitiesSet);
     setForm({
-      entities: filteredEntites,
+      entities: filteredEntitiesList,
+    });
+    setPreviews((previews) => {
+      for (let entity in previews) {
+        if (!filteredEntitiesSet.has(entity)) {
+          delete previews[entity];
+        }
+      }
+      return previews;
     });
   };
 
