@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
+import { HiMinusCircle } from 'react-icons/hi';
 import '../styles/Inputs.css';
 
-const InputField = ({ cachedEntities, index, handleChange }) => {
-  const [value, setValue] = useState('');
+const InputField = ({
+  cachedEntities,
+  index,
+  handleChange,
+  handleRemove,
+  name,
+  form,
+}) => {
+  const [value, setValue] = useState(name);
 
   const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    setValue(name);
+  }, [name]);
 
   const onChange = (event, { newValue }) => {
     handleChange(newValue, index);
@@ -56,15 +68,25 @@ const InputField = ({ cachedEntities, index, handleChange }) => {
   };
 
   return (
-    <Autosuggest
-      suggestions={suggestions}
-      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={onSuggestionsClearRequested}
-      onSuggestionSelected={onSuggestionSelected}
-      getSuggestionValue={getSuggestionValue}
-      renderSuggestion={renderSuggestion}
-      inputProps={inputProps}
-    />
+    <>
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        onSuggestionSelected={onSuggestionSelected}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        inputProps={inputProps}
+      />
+      <HiMinusCircle
+        size={30}
+        id="minus-entity-button"
+        className={form.entities.length === 1 ? 'disabled' : ''}
+        onClick={() => {
+          handleRemove(index);
+        }}
+      />
+    </>
   );
 };
 

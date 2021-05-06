@@ -4,7 +4,7 @@ import {
   exportComponentAsJPEG,
   exportComponentAsPDF,
 } from 'react-component-export-image';
-import { HiMinusCircle, HiPlusCircle } from 'react-icons/hi';
+import { HiPlusCircle } from 'react-icons/hi';
 import { BiDownload, BiInfoCircle } from 'react-icons/bi';
 import axios from 'axios';
 import YearsRange from './YearsRange';
@@ -89,12 +89,13 @@ function Main({ t, examples, setExamples }) {
   };
 
   const handleRemove = (i) => {
+    console.log(i);
     if (form.entities.length <= 1) return;
-    setQueryEntities(
-      new Set([...form.entities.filter((el, elI) => elI !== i)])
-    );
+    const filteredEntites = form.entities.filter((el, elI) => elI !== i);
+    console.log(filteredEntites);
+    setQueryEntities(new Set([...filteredEntites]));
     setForm({
-      entities: form.entities.filter((el, elI) => elI !== i),
+      entities: filteredEntites,
     });
   };
 
@@ -212,11 +213,13 @@ function Main({ t, examples, setExamples }) {
     clearOutputs();
     setQueryEntities(new Set([...form.entities]));
 
-    form.entities.forEach((entity) => {
-      sources.forEach((source) => {
-        requestAnalysis(entity, source);
+    form.entities
+      .filter((entity) => entity !== '')
+      .forEach((entity) => {
+        sources.forEach((source) => {
+          requestAnalysis(entity, source);
+        });
       });
-    });
   };
 
   const toggleSource = (source) => {
@@ -255,14 +258,9 @@ function Main({ t, examples, setExamples }) {
             cachedEntities={cachedEntities}
             index={i}
             handleChange={handleChange}
-          />
-          <HiMinusCircle
-            size={30}
-            id="minus-entity-button"
-            className={form.entities.length === 1 ? 'disabled' : ''}
-            onClick={() => {
-              handleRemove(i);
-            }}
+            handleRemove={handleRemove}
+            name={value}
+            form={form}
           />
         </div>
       );
