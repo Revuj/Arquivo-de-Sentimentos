@@ -250,28 +250,12 @@ function Main({ t, examples, setExamples }) {
     const entitiesElements = [];
     form.entities.forEach((value, i) => {
       entitiesElements.push(
-        <div className="d-flex" key={i}>
+        <div className="input-container" key={i}>
           <InputField
             cachedEntities={cachedEntities}
             index={i}
             handleChange={handleChange}
           />
-          {/* <Input
-            type="text"
-            name="entity"
-            className="entity-name"
-            placeholder="Write your entity in here"
-            value={value}
-            onChange={(e) => {
-              handleChange(e, i);
-            }}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSubmit();
-              }
-            }}
-          /> */}
           <HiMinusCircle
             size={30}
             id="minus-entity-button"

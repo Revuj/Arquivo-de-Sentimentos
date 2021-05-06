@@ -8,7 +8,7 @@
   --danger: #ff0000;
   --accent: #0346f2;
   --light-accent: #f2f5fe;
-  --primary-font: 'Source Sans Pro', Arial, sans-serif;
+  --primary-font: 'Poppins', Arial, sans-serif;
 }
 
 *,
@@ -239,25 +239,6 @@ strong {
   font-weight: 500;
 }
 
-input.entity-name {
-  border: none;
-  padding: 1.5rem 0.2rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--light-gray);
-  color: var(--gray);
-  font-size: 14px;
-  line-height: 24px;
-  background-color: #fff !important;
-}
-
-input.entity-name:-internal-autofill-selected {
-  background-color: #fff !important;
-}
-
-input.entity-name::placeholder {
-  color: var(--light-gray);
-}
-
 #search-button,
 #confirm-export-button {
   width: 100%;
@@ -479,62 +460,4 @@ input.entity-name::placeholder {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8e94a7;
-}
-
-.react-autosuggest__container {
-  position: relative;
-}
-
-.react-autosuggest__input {
-  width: 240px;
-  height: 30px;
-  padding: 10px 20px;
-  font-family: Helvetica, sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-}
-
-.react-autosuggest__input--focused {
-  outline: none;
-}
-
-.react-autosuggest__input--open {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.react-autosuggest__suggestions-container {
-  display: none;
-}
-
-.react-autosuggest__suggestions-container--open {
-  display: block;
-  position: absolute;
-  top: 51px;
-  width: 280px;
-  border: 1px solid #aaa;
-  background-color: #fff;
-  font-family: Helvetica, sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  z-index: 2;
-}
-
-.react-autosuggest__suggestions-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.react-autosuggest__suggestion {
-  cursor: pointer;
-  padding: 10px 20px;
-}
-
-.react-autosuggest__suggestion--highlighted {
-  background-color: #ddd;
 }

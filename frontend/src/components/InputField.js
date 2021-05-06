@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
+import '../styles/Inputs.css';
 
 const InputField = ({ cachedEntities, index, handleChange }) => {
   const [value, setValue] = useState('');
