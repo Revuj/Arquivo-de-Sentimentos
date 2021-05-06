@@ -100,6 +100,9 @@ function Main({ t, examples, setExamples }) {
       for (let entity in previews) {
         if (!filteredEntitiesSet.has(entity)) {
           delete previews[entity];
+          if (selectedEntity === entity) {
+            setSelectedEntity(filteredEntitiesList[0]);
+          }
         }
       }
       return previews;
