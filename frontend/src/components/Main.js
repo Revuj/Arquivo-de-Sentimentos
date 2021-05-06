@@ -76,11 +76,9 @@ function Main({ t, examples, setExamples }) {
     }
   }, [form]);
 
-  const handleChange = (e, i) => {
+  const handleChange = (value, i) => {
     setForm({
-      entities: form.entities.map((el, elI) =>
-        elI === i ? e.target.value : el
-      ),
+      entities: form.entities.map((el, elI) => (elI === i ? value : el)),
     });
   };
 
@@ -253,8 +251,12 @@ function Main({ t, examples, setExamples }) {
     form.entities.forEach((value, i) => {
       entitiesElements.push(
         <div className="d-flex" key={i}>
-          <InputField />
-          <Input
+          <InputField
+            cachedEntities={cachedEntities}
+            index={i}
+            handleChange={handleChange}
+          />
+          {/* <Input
             type="text"
             name="entity"
             className="entity-name"
@@ -269,7 +271,7 @@ function Main({ t, examples, setExamples }) {
                 handleSubmit();
               }
             }}
-          />
+          /> */}
           <HiMinusCircle
             size={30}
             id="minus-entity-button"
