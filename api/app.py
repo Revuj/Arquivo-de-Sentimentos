@@ -1,15 +1,19 @@
 from dotenv import load_dotenv
 load_dotenv()
+import os
 from flask import Flask, request, send_from_directory
 from flask_cors import CORS, cross_origin
 from mongo import mongo_client
 from process import check_active_process, store_active_process, delete_active_process
-import analysis
-import os
 
+
+from create_celery import make_celery
 
 app = Flask(__name__, static_url_path='', static_folder='../frontend/build')
 cors = CORS(app)
+app.config.update(CELERY_BROKER_URL=os.environ['REDIS_URL'])
+celery = make_celery(app)
+import analysis
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 

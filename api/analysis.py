@@ -6,13 +6,17 @@ from google.cloud import language_v1
 import newsfetcher
 from bs4 import BeautifulSoup
 from functools import partial
+from process import check_active_process, store_active_process, delete_active_process
+from create_celery import make_celery
 
 from mongo import mongo_client, mongo_address
 from bson.objectid import ObjectId
+from pymongo import MongoClient
 
 
 sources_urls = {'Correio da Manhã': 'www.cmjornal.pt', 'Jornal de Notícias': 'www.jn.pt', 'Público': 'www.publico.pt'}
 
+celery = make_celery(None)
 
 
 def analyze_sentiment(text_content):
@@ -71,41 +75,37 @@ def get_link_previews(name, website):
   return res
 
 
+@celery.task()
 def analysis(entity, source):
 
-  db = mongo_client.ArquivoSentimentos
+    with MongoClient(mongo_address) as client:	
+        store_active_process(client, entity, source)
+        db = client.ArquivoSentimentos
+        urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
+        content_by_year = newsfetcher.get_articles_content(urls_by_year)
 
-  query = {"name": entity, 'website': source }
+        total_urls = []
+        for year, urls in urls_by_year.items():
+            total_urls.extend(urls)
 
-  doc = db.ArquivoSentimentos.find_one(query)
+        score_by_year = []
+        magnitude_by_year = []
+        for year, content in content_by_year.items():
+            score, magnitude = analyze_sentiment(content)
+            score_by_year.append(score)
+            magnitude_by_year.append(magnitude)
 
-  if doc:
-    return [doc['sentiment'], doc['magnitude']]
-  else:
-    urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
-    content_by_year = newsfetcher.get_articles_content(urls_by_year)
+        element = {
+            'name': entity,
+            'website': source,
+            'sentiment': score_by_year , 
+            'magnitude': magnitude_by_year , 
+            'news': total_urls
+        }
+        inserted = db.ArquivoSentimentos.insert_one(element)
+        delete_active_process(client, entity, source)
 
-    total_urls = []
-    for year, urls in urls_by_year.items():
-      total_urls.extend(urls)
-
-    score_by_year = []
-    magnitude_by_year = []
-    for year, content in content_by_year.items():
-      score, magnitude = analyze_sentiment(content)
-      score_by_year.append(score)
-      magnitude_by_year.append(magnitude)
-
-    element = {
-      'name': entity,
-      'website': source,
-      'sentiment': score_by_year , 
-      'magnitude': magnitude_by_year , 
-      'news': total_urls
-    }
-    inserted = db.ArquivoSentimentos.insert_one(element)
-
-    return [score_by_year, magnitude_by_year]
+    return True
 
 def get_analysis_results(entity, source):
 
@@ -126,12 +126,19 @@ def get_analysis_results(entity, source):
     return response
   else:
 
-    # TODO schedule analysis task with celery
     
+    active_process = check_active_process(entity, source)
     response = {
       'status': 'NOT_ON_CACHE',
       'content': ''
     }
+
+
+    if not active_process:
+        print(f'nothing active for {entity} - {source}')
+        analysis.delay(entity, source)
+    else:
+        print(f'smth is running for {entity} - {source}')
 
   return response
 
