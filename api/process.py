@@ -1,4 +1,6 @@
 from mongo import mongo_client, mongo_address
+from datetime import datetime
+
 
 def check_active_process(entity, source):
   db = mongo_client.ArquivoSentimentos
@@ -13,6 +15,7 @@ def store_active_process(client, entity, source):
   element = {
     'process_entity': entity,
     'process_source': source,
+    'start_time': str(int(datetime.utcnow().timestamp()))
   }
   successful = db.Processes.insert_one(element).acknowledged
   return successful
