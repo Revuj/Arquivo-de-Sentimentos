@@ -282,7 +282,33 @@ function Main({ t, examples, setExamples }) {
     return (
       <div id="input" className="main-card">
         <div className="card-header">
-          <h4 className="card-title">{t('search_personality')}</h4>
+          <span className="card-title-container">
+            <h4 className="card-title">{t('search_personality')}</h4>
+            <span
+              className="tooltip-container"
+              onMouseEnter={() => setShowToolTip('search')}
+              onMouseLeave={() => setShowToolTip(false)}
+            >
+              <BiInfoCircle size={20} className="tooltip-icon" />
+              <span
+                className="tooltip-text"
+                style={{
+                  visibility: showToolTip === 'search' ? 'visible' : 'hidden',
+                }}
+              >
+                <p>{t('search-tooltip1')}</p>
+                <p>{t('search-tooltip2')}</p>
+                <p
+                  className="gotit"
+                  onClick={() => {
+                    setShowToolTip(false);
+                  }}
+                >
+                  {t('got_it')}
+                </p>
+              </span>
+            </span>
+          </span>
           <HiPlusCircle size={30} id="add-entity-button" onClick={handleAdd} />
         </div>
         <Form>

@@ -66,5 +66,8 @@
 
   "image": "image",
 
-  "contact": "contact"
+  "contact": "contact",
+
+  "search-tooltip1": "Entities that have not been analyzed yet can take a few minutes to process, since the results require the analysis of large amounts of data.",
+  "search-tooltip2": "To choose entities that were already analyzed, make use of the autocomplete functionality."
 }
