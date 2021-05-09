@@ -70,6 +70,7 @@ nav > * {
   padding: 2rem 0;
   display: flex;
   align-items: flex-start;
+  justify-content: center;
 }
 
 #about-content {
@@ -83,7 +84,13 @@ nav > * {
 }
 
 #output {
-  width: 800px;
+  max-width: 800px;
+  width: 100%;
+  padding-right: 20px;
+}
+
+.canvas-container {
+  height: 35vh;
 }
 
 #about-content a {
@@ -100,7 +107,7 @@ nav > * {
   box-sizing: border-box;
   box-shadow: 8px 8px 16px 4px rgba(137, 143, 150, 0.04);
   border-radius: 20px;
-  margin: 20px;
+  margin: 20px 0 20px 20px;
   padding: 15px 32px 32px 32px;
 }
 
@@ -460,4 +467,39 @@ strong {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8e94a7;
+}
+
+@media only screen and (max-width: 1040px) {
+  #main-content {
+    flex-direction: column;
+  }
+
+  #output {
+    max-width: 100%;
+    padding-right: 40px;
+  }
+
+  #output .main-card {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  #input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #output {
+    padding: 0;
+  }
+
+  .main-card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .canvas {
+    margin-right: 0;
+  }
 }

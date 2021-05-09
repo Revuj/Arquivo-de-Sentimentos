@@ -119,9 +119,14 @@ const SentimentChart = ({
         },
       ],
     },
+    maintainAspectRatio: false,
   };
 
-  return <Line data={graphData} options={options} />;
+  return (
+    <div className="canvas-container">
+      <Line data={graphData} options={options} />
+    </div>
+  );
 };
 
 export default SentimentChart;

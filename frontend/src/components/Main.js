@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createRef } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label } from 'reactstrap';
 import {
   exportComponentAsJPEG,
   exportComponentAsPDF,
@@ -69,7 +69,7 @@ function Main({ t, examples, setExamples }) {
   useEffect(() => {
     if (
       examples.length > 0 &&
-      JSON.stringify(examples) == JSON.stringify(form.entities)
+      JSON.stringify(examples) === JSON.stringify(form.entities)
     ) {
       handleSubmit();
       setExamples([]);
@@ -158,7 +158,7 @@ function Main({ t, examples, setExamples }) {
     axios
       .get(`${process.env.REACT_APP_PROXY}/results`, { params })
       .then((res) => {
-        if (res.data.status == 'ON_CACHE') {
+        if (res.data.status === 'ON_CACHE') {
           setSentimentScores((current) => {
             let st = { ...current };
             let st_en = { ...st[entity] };
@@ -193,7 +193,7 @@ function Main({ t, examples, setExamples }) {
             );
           }
           requestNews(entity, source);
-        } else if (res.data.status == 'NOT_ON_CACHE') {
+        } else if (res.data.status === 'NOT_ON_CACHE') {
           if (!isPending) {
             setPendingQueries(
               (prev) =>
