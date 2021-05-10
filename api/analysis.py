@@ -79,7 +79,6 @@ def get_link_previews(name, website):
 def analysis(entity, source):
 
     with MongoClient(mongo_address) as client:	
-        store_active_process(client, entity, source)
         db = client.ArquivoSentimentos
         urls_by_year = newsfetcher.get_articles_urls(entity, sources_urls[source])
         content_by_year = newsfetcher.get_articles_content(urls_by_year)
@@ -136,6 +135,7 @@ def get_analysis_results(entity, source):
 
     if not active_process:
         print(f'nothing active for {entity} - {source}')
+        store_active_process(mongo_client, entity, source)
         analysis.delay(entity, source)
     else:
         print(f'smth is running for {entity} - {source}')
