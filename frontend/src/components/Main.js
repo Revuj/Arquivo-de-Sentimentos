@@ -311,7 +311,13 @@ function Main({ t, examples, setExamples }) {
           </span>
           <HiPlusCircle size={30} id="add-entity-button" onClick={handleAdd} />
         </div>
-        <Form>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleSubmit();
+          }}
+        >
           <FormGroup>{entitiesInput()}</FormGroup>
           <FormGroup id="years-range-group">
             <Label for="years-range">{t('year_analyse')}</Label>
