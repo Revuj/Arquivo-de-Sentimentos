@@ -59,8 +59,9 @@ For more information consult the [Google Cloud page](https://cloud.google.com/na
 An `.env` file in the folder `api/` with the following format:
 
 ```
-FLASK_APP=api.py
+FLASK_APP=app.py
 FLASK_ENV=development
+REDIS_URL=redis://
 MONGO_ADDRESS=XXX
 ```
 
