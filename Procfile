@@ -1,2 +1,0 @@
-web: GOOGLE_APPLICATION_CREDENTIALS="/app/google-credentials.json" gunicorn --chdir ./api app:app
-worker: cd api && GOOGLE_APPLICATION_CREDENTIALS="/app/google-credentials.json" celery -A app.celery worker
